@@ -1,29 +1,34 @@
 #pragma once
 #include "mainj.h"
-
+#include "rail.h"
 
 /**
-* @brief VÈrifie si le mot existe dans un dictionnaire donnÈ
+* @brief V√©rifie si le mot existe dans un dictionnaire donn√©
 */
 int motExiste(const char* mot);
 
 /**
-* @brief VÈrifie si le mot est jouable, c'est-‡-dire si le joueur a dans sa main les lettres nÈcessaires pour constituer le mot.
+* @brief V√©rifie si le mot est jouable, c'est-√†-dire si le joueur a dans sa main les lettres n√©cessaires pour constituer le mot.
 */
 int motJouable(const char* mot, Main* mainJ);
 
 /**
-* @brief Compare la proximitÈ ‡ la lettre A d'un motJ1 avec un motJ2. 
+* @brief Compare la proximit√© √† la lettre A d'un motJ1 avec un motJ2. 
 */
 int comparerProximiteA(const char* motJ1, const char* motJ2);
 
 /**
-* @brief VÈrifie lequel des deux mots est le plus proche de A.
+* @brief V√©rifie lequel des deux mots est le plus proche de A.
 */
-char* motPlusProcheDeA(const char* motJ1, const char* motJ2);
+int joueurPlusProcheDeA(const char* motJ1, const char* motJ2);
 
 /**
-* @brief DÈtermine l'ordre de jeu.
+* @brief Concat√®ne les deux mots en commen√ßant par celui le plus proche de A.
 */
-int deterOrdreJeu(Main* mainJ1, Main* mainJ2);
+char* concateneMotProcheDeA(const char* motJ1, const char* motJ2);
+
+/**
+* @brief D√©termine l'ordre de jeu.
+*/
+int deterOrdreJeu(Main* mainJ1, Main* mainJ2, Rail* rail);
 
