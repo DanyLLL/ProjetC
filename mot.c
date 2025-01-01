@@ -18,15 +18,15 @@ int motExiste(const char* mot) {
 
     char ligne[256];
     while (fgets(ligne, sizeof(ligne), f)) {
-        // Supprime le caractère de fin de ligne '\n'
+        // Supprime le caractÃ¨re de fin de ligne '\n'
         ligne[strcspn(ligne, "\n")] = '\0';
         if (strcmp(ligne, mot) == 0) {
             fclose(f);
-            return 0;  // Mot trouvé
+            return 0;  // Mot trouvÃ©
         }
     }
     fclose(f);
-    return 1;  // Mot non trouvé
+    return 1;  // Mot non trouvÃ©
 }
 
 int motJouable(const char* mot, Main* mainJ) {
@@ -42,7 +42,7 @@ int motJouable(const char* mot, Main* mainJ) {
         }
     }
 
-    // Si toutes les lettres sont trouvées, maintenant on retire les lettres de la main
+    // Si toutes les lettres sont trouvÃ©es, maintenant on retire les lettres de la main
     for (int i = 0; i < strlen(mot); i++) {
         for (int j = 0; j < strlen(mainJ->chevalets); j++) {
             if (mainJ->chevalets[j] == mot[i]) {
@@ -81,7 +81,15 @@ char* motPlusProcheDeA(const char* motJ1, const char* motJ2) {
     assert(motJ1 != NULL && motJ2 != NULL);
     const char* mots[] = { motJ1, motJ2 };
     qsort(mots, 2, sizeof(const char*), comparerProximiteA);
-    return mots;
+    size_t tailleNouvelleChaine = strlen(mots[0]) + strlen(mots[1]) + 1;
+    char* resultat = (char*)malloc(tailleNouvelleChaine);
+    if (resultat == NULL) {
+        return NULL;
+    }
+    strcpy(resultat, mots[0]);
+    strcat(resultat, mots[1]);
+
+    return resultat;
 }
 
 int deterOrdreJeu(Main* mainJ1, Main* mainJ2) {
