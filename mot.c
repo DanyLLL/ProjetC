@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include "mot.h"
 #include "mainj.h"
+#include "rail.h"
 #pragma warning(disable : 4996)
 
 enum { MAX_MOT_DEP = 5 };
@@ -77,7 +78,19 @@ int comparerProximiteA(const char* a, const char* b) {
     return (*mot1 == '\0') - (*mot2 == '\0');
 }
 
-char* motPlusProcheDeA(const char* motJ1, const char* motJ2) {
+int joueurPlusProcheDeA(const char* motJ1, const char* motJ2) {
+    assert(motJ1 != NULL && motJ2 != NULL);
+    const char* mots[] = { motJ1, motJ2 };
+    qsort(mots, 2, sizeof(const char*), comparerProximiteA);
+    if (motJ1 == mots[0]){
+        return 1;
+    }
+    else {
+        return 2;
+    }
+}
+
+char* concateneMotProcheDeA(const char* motJ1, const char* motJ2) {
     assert(motJ1 != NULL && motJ2 != NULL);
     const char* mots[] = { motJ1, motJ2 };
     qsort(mots, 2, sizeof(const char*), comparerProximiteA);
@@ -92,7 +105,7 @@ char* motPlusProcheDeA(const char* motJ1, const char* motJ2) {
     return resultat;
 }
 
-int deterOrdreJeu(Main* mainJ1, Main* mainJ2) {
+int deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
     char mot_dep_J1[MAX_MOT_DEP];
     char mot_dep_J2[MAX_MOT_DEP];
     int motJ1Valide = 0;
@@ -111,14 +124,11 @@ int deterOrdreJeu(Main* mainJ1, Main* mainJ2) {
             motJ2Valide = 1;
         }
     }
-    if (motPlusProcheDeA(mot_dep_J1, mot_dep_J2) == mot_dep_J1) {
-        printf("\nc'est 0\n\n");
-        return 0;
-    }
-    else {
-        printf("\nc'est 1 hihi\n\n");
+    ajtMotRail(rail,concateneMotProcheDeA(mot_dep_J1, mot_dep_J2),0);
+    if (joueurPlusProcheDeA(mot_dep_J1, mot_dep_J2) == 1) {
         return 1;
     }
+    else {
+        return 2;
+    }
 }
-
-
