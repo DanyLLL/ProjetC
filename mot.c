@@ -7,11 +7,10 @@
 #include "rail.h"
 #pragma warning(disable : 4996)
 
-enum { MAX_MOT_DEP = 5 };
 
-int motExiste(const char* mot) {
+int motExiste(const char* mot,const char* dico) {
     // Ouvre le fichier en mode lecture
-    FILE* f = fopen("ods4.txt", "r");
+    FILE* f = fopen(dico, "r");
     if (f == NULL) {
         printf("Fichier non accessible\n");
         return 1; // Erreur, fichier inaccessible
@@ -105,7 +104,7 @@ char* concateneMotProcheDeA(const char* motJ1, const char* motJ2) {
     return resultat;
 }
 
-int deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
+void deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
     char mot_dep_J1[MAX_MOT_DEP];
     char mot_dep_J2[MAX_MOT_DEP];
     int motJ1Valide = 0;
@@ -113,22 +112,26 @@ int deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
     while (motJ1Valide == 0) {
         printf("1> ");
         scanf("%s", mot_dep_J1);
-        if (strlen(mot_dep_J1) == 4 && motExiste(mot_dep_J1) == 0 && motJouable(mot_dep_J1, mainJ1)) {
+        if (strlen(mot_dep_J1) == 4 && motExiste(mot_dep_J1,"ods4.txt") == 0 && motJouable(mot_dep_J1, mainJ1)) {
             motJ1Valide = 1;
         }
     }
     while (motJ2Valide == 0) {
         printf("2> ");
         scanf("%s", mot_dep_J2);
-        if (strlen(mot_dep_J2) == 4 && motExiste(mot_dep_J2) == 0 && motJouable(mot_dep_J2, mainJ2)) {
+        if (strlen(mot_dep_J2) == 4 && motExiste(mot_dep_J2, "ods4.txt") == 0 && motJouable(mot_dep_J2, mainJ2)) {
             motJ2Valide = 1;
         }
     }
     ajtMotRail(rail,concateneMotProcheDeA(mot_dep_J1, mot_dep_J2),0);
     if (joueurPlusProcheDeA(mot_dep_J1, mot_dep_J2) == 1) {
-        return 1;
+        mainJ1->ordre = 1;
+        mainJ2->ordre = 2;
     }
     else {
-        return 2;
+        mainJ2->ordre = 1;
+        mainJ1->ordre = 2;
     }
 }
+
+
