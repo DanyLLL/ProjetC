@@ -9,6 +9,21 @@
 void lancerPartie(Pioche* pioche, Main* J1, Main* J2, Rail* rail);
 
 /**
+* @brief Vérifie si le coup du joueur est valide aux règles du jeu.
+*/
+int coupValide(const char* RoV, const char* mot);
+
+/**
+* @brief Permet à un joueur de jouer un tour.
+*/
+void jouerTour(const char* joueur, char* RoV, char* mot);
+
+/**
+* @brief Gère les tours du jeu.
+*/
+void gereTours(Main* J1, Main* J2);
+
+/**
 * @brief Déroule la partie après avoir décidé de l'ordre de jeu.
 */
 void deroulePartie(Main* J1, Main* J2);
