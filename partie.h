@@ -16,12 +16,12 @@ int coupValide(const char* RoV, const char* mot);
 /**
 * @brief Permet à un joueur de jouer un tour.
 */
-void jouerTour(const char* joueur, char* RoV, char* mot);
+int jouerTour(const char* joueur, char* RoV, char* mot);
 
 /**
 * @brief Gère les tours du jeu.
 */
-void gereTours(Main* J1, Main* J2);
+int gereTours(Main* J1, Main* J2, const char* joueur);
 
 /**
 * @brief Déroule la partie après avoir décidé de l'ordre de jeu.
