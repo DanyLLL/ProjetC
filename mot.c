@@ -8,6 +8,13 @@
 #pragma warning(disable : 4996)
 
 
+int triAlphabetique(const void* a, const void* b) {
+    char charA = *(char*)a;
+    char charB = *(char*)b;
+    return (charA - charB);
+}
+
+
 int motExiste(const char* mot,const char* dico) {
     // Ouvre le fichier en mode lecture
     FILE* f = fopen(dico, "r");
@@ -30,29 +37,42 @@ int motExiste(const char* mot,const char* dico) {
 }
 
 int motJouable(const char* mot, Main* mainJ) {
+    char* chevaletTemp = malloc((strlen(mainJ->chevalets) + 1) * sizeof(char));
+    if (!chevaletTemp) {
+        return 1; // Échec de l'allocation mémoire
+    }
+
+    strcpy(chevaletTemp, mainJ->chevalets);
+
+    // Vérifier si le mot est jouable
     for (int i = 0; i < strlen(mot); i++) {
         int lettreTrouvee = 0;
         for (int j = 0; j < strlen(mainJ->chevalets); j++) {
-            if (mainJ->chevalets[j] == mot[i]) {
+            if (chevaletTemp[j] == mot[i]) {
                 lettreTrouvee = 1;
+                chevaletTemp[j] = '*'; // Marquer la lettre comme utilisée
+                break;
             }
         }
         if (!lettreTrouvee) {
-            return 0; // Mot non jouable
+            free(chevaletTemp); // Libérer la mémoire allouée
+            return 1; // Mot non jouable
         }
     }
 
-    // Si toutes les lettres sont trouvées, maintenant on retire les lettres de la main
+    // Si le mot est jouable, retirer les lettres de la main réelle
     for (int i = 0; i < strlen(mot); i++) {
         for (int j = 0; j < strlen(mainJ->chevalets); j++) {
             if (mainJ->chevalets[j] == mot[i]) {
-                // Retirer la lettre de la main
                 retireMain(mainJ, j);
+                // Après avoir retiré une lettre, ajuster l'indice
                 break;
             }
         }
     }
-    return 1; // Mot jouable
+
+    free(chevaletTemp); // Libérer la mémoire allouée après utilisation
+    return 0; // Mot jouable
 }
 
 int comparerProximiteA(const char* a, const char* b) {
@@ -104,6 +124,41 @@ char* concateneMotProcheDeA(const char* motJ1, const char* motJ2) {
     return resultat;
 }
 
+const char* extraireParenthesesEtMot(const char* chaine, char** entreParenthese, char** horsParenthese) {
+    *entreParenthese = malloc(sizeof(char));
+    (*entreParenthese)[0] = '\0';
+    *horsParenthese = malloc(sizeof(char));
+    (*horsParenthese)[0] = '\0';
+
+    int inParentheses = 0;
+    int parenthesesEncounteredFirst = -1; // -1: indéterminé, 0: horsParenthese d'abord, 1: entreParentheses d'abord
+
+    for (int i = 0; chaine[i] != '\0'; i++) {
+        if (chaine[i] == '(') {
+            inParentheses = 1; // Début du contenu entre parenthèses
+            if (parenthesesEncounteredFirst == -1) {
+                parenthesesEncounteredFirst = 1; // Les parenthèses viennent d'abord
+            }
+        }
+        else if (chaine[i] == ')') {
+            inParentheses = 0; // Fin du contenu entre parenthèses
+        }
+        else {
+            char** target = inParentheses ? entreParenthese : horsParenthese;
+            if (!inParentheses && parenthesesEncounteredFirst == -1) {
+                parenthesesEncounteredFirst = 0; // horsParentheses vient d'abord
+            }
+            size_t len = strlen(*target);
+            *target = realloc(*target, len + 2); // Redimensionner pour un nouveau caractère
+            (*target)[len] = chaine[i];
+            (*target)[len + 1] = '\0';
+        }
+    }
+
+    return (parenthesesEncounteredFirst == 0) ? GAUCHE : DROITE;
+}
+
+
 void deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
     char mot_dep_J1[MAX_MOT_DEP];
     char mot_dep_J2[MAX_MOT_DEP];
@@ -112,14 +167,14 @@ void deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
     while (motJ1Valide == 0) {
         printf("1> ");
         scanf("%s", mot_dep_J1);
-        if (strlen(mot_dep_J1) == 4 && motExiste(mot_dep_J1,"ods4.txt") == 0 && motJouable(mot_dep_J1, mainJ1)) {
+        if (strlen(mot_dep_J1) == 4 && motExiste(mot_dep_J1,"ods4.txt") == 0 && motJouable(mot_dep_J1, mainJ1) == 0) {
             motJ1Valide = 1;
         }
     }
     while (motJ2Valide == 0) {
         printf("2> ");
         scanf("%s", mot_dep_J2);
-        if (strlen(mot_dep_J2) == 4 && motExiste(mot_dep_J2, "ods4.txt") == 0 && motJouable(mot_dep_J2, mainJ2)) {
+        if (strlen(mot_dep_J2) == 4 && motExiste(mot_dep_J2, "ods4.txt") == 0 && motJouable(mot_dep_J2, mainJ2) == 0) {
             motJ2Valide = 1;
         }
     }
@@ -133,5 +188,7 @@ void deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
         mainJ1->ordre = 2;
     }
 }
+
+
 
 
