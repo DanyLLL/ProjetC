@@ -2,6 +2,10 @@
 #include "mainj.h"
 #include "rail.h"
 
+enum { MAX_MOT_DEP = 5, MAX_MOT = 15 };
+
+int triAlphabetique(const void* a, const void* b);
+
 /**
 * @brief Vérifie si le mot existe dans un dictionnaire donné
 */
@@ -13,7 +17,7 @@ int motExiste(const char* mot);
 int motJouable(const char* mot, Main* mainJ);
 
 /**
-* @brief Compare la proximité à la lettre A d'un motJ1 avec un motJ2. 
+* @brief Compare la proximité à la lettre A d'un motJ1 avec un motJ2.
 */
 int comparerProximiteA(const char* motJ1, const char* motJ2);
 
@@ -28,7 +32,10 @@ int joueurPlusProcheDeA(const char* motJ1, const char* motJ2);
 char* concateneMotProcheDeA(const char* motJ1, const char* motJ2);
 
 /**
+* @brief 
+*/
+const char* extraireParenthesesEtMot(const char* chaine, char** entreParenthese, char** horsParenthese);
+/**
 * @brief Détermine l'ordre de jeu.
 */
-int deterOrdreJeu(Main* mainJ1, Main* mainJ2, Rail* rail);
-
+void deterOrdreJeu(Main* mainJ1, Main* mainJ2, Rail* rail);
