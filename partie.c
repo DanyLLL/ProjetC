@@ -14,7 +14,7 @@ void lancerPartie(Pioche* pioche, Main* J1, Main* J2, Rail* rail) {
     prepareMainsJeu(pioche, J1, J2);
     deterOrdreJeu(J1, J2, rail);
     afficheSituationCouranteJeu(J1, J2, rail);
-    deroulePartie(J1, J2);
+    deroulePartie(J1, J2, rail);
 }
 
 void afficheSituationCouranteJeu(Main* mainJ1, Main* mainJ2, Rail* rail) {
@@ -39,7 +39,7 @@ int jouerTour(const char* joueur, char* RoV, char* mot) {
     return coupValide(RoV, mot);
 }
 
-int gereTours(Main* J1, Main* J2,const char* joueur) {
+int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
     char mot_J1[MAX_MOT], mot_J2[MAX_MOT];
     char RoV[MAX_ROV];
     while (1){
@@ -48,11 +48,22 @@ int gereTours(Main* J1, Main* J2,const char* joueur) {
                 char* entreParentheses = NULL;
                 char* horsParentheses = NULL;
                 if (strcmp(RoV, "R") == 0) {
-                    extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses);
-                    if (motJouable(horsParentheses, J1) == 0) {
-                        printf("Contenu entre parenthèses : '%s'\n", entreParentheses);
-                        printf("Contenu hors parenthèses : '%s'\n", horsParentheses);
-                        return 0;
+                    if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == 0) { //Le mot du joueur est rentré par la gauche
+                        printf("chevalets : %s\n", J1->chevalets);
+                        printf("%s %s\n", entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE));
+                        if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
+                            printf("%s %s\n", entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE));
+                            printf("Contenu entre parenthèses : '%s'\n", entreParentheses);
+                            printf("Contenu hors parenthèses : '%s'\n", horsParentheses);
+                            printf("Position : %d", extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses));
+                            return 0;
+                        }
+                        else {
+                            for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                ajouteMain(J1, horsParentheses[i]);
+                            }
+                            qsort(J1->chevalets, strlen(J1->chevalets), sizeof(char), triAlphabetique);
+                        }
                     }
                 }
                 else if (strcmp(RoV, "V") == 0) {
@@ -69,24 +80,24 @@ int gereTours(Main* J1, Main* J2,const char* joueur) {
     }
 }
 
-void deroulePartie(Main* J1, Main* J2) {
+void deroulePartie(Main* J1, Main* J2,Rail* rail) {
     assert(J1->ordre != NULL && J2->ordre != NULL);
     int ordre;
     while (J1->nb != 0 || J2->nb != 0) {
         if (J1->ordre == 1) {
-            while (gereTours(J1, J2, "1") != 0) {
-                gereTours(J1, J2, "1");
+            while (gereTours(J1, J2, "1",rail) != 0) {
+                gereTours(J1, J2, "1", rail);
             }
-            while (gereTours(J1, J2, "2") != 0) {
-                gereTours(J1, J2, "2");
+            while (gereTours(J1, J2, "2", rail) != 0) {
+                gereTours(J1, J2, "2", rail);
             }
         }
         else {
-            while (gereTours(J1, J2, "2") != 0) {
-                gereTours(J1, J2, "2");
+            while (gereTours(J1, J2, "2", rail) != 0) {
+                gereTours(J1, J2, "2", rail);
             }
-            while (gereTours(J1, J2, "1") != 0) {
-                gereTours(J1, J2, "1");
+            while (gereTours(J1, J2, "1", rail) != 0) {
+                gereTours(J1, J2, "1", rail);
             }
         }
     }
