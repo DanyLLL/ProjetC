@@ -13,16 +13,16 @@ typedef Pioche Main;
 void initMain(Main* main);
 
 /**
-* @brief Ajoute une lettre à la main du joueur.
+* @brief Ajoute une lettre Ã  la main du joueur.
 */
 void ajouteMain(Main* main, char lettre);
 
 /**
-* @brief Retire la lettre à un indice donné de la main.
+* @brief Retire la lettre Ã  un indice donnÃ© de la main.
 */
 char retireMain(Main* main, int indice);
 
 /**
-* @brief Prépare les deux mains nécessaires pour l'Octo-verso.
+* @brief PrÃ©pare les deux mains nÃ©cessaires pour l'Octo-verso.
 */
 void prepareMainsJeu(Pioche* pioche,Main* mainJ1,Main* mainJ2);
