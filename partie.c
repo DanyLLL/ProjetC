@@ -43,19 +43,28 @@ int gereTours(Main* J1, Main* J2,const char* joueur) {
     char mot_J1[MAX_MOT], mot_J2[MAX_MOT];
     char RoV[MAX_ROV];
     while (1){
-        if (jouerTour(joueur, RoV, mot_J1) == 0) {
-            if (strcmp(RoV, "R") == 0) {
-                return 0;
-            }
-            else if (strcmp(RoV, "V") == 0) {
-                return 0;
+        if (joueur == "1") {
+            if (jouerTour(joueur, RoV, mot_J1) == 0) {
+                char* entreParentheses = NULL;
+                char* horsParentheses = NULL;
+                if (strcmp(RoV, "R") == 0) {
+                    extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses);
+                    if (motJouable(horsParentheses, J1) == 0) {
+                        printf("Contenu entre parenthèses : '%s'\n", entreParentheses);
+                        printf("Contenu hors parenthèses : '%s'\n", horsParentheses);
+                        return 0;
+                    }
+                }
+                else if (strcmp(RoV, "V") == 0) {
+                    return 0;
+                }
+                else {
+                    return 1;
+                }
             }
             else {
                 return 1;
             }
-        }
-        else {
-            return 1;
         }
     }
 }
