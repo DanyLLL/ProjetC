@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "mainj.h"
+#include "mot.h"
 #pragma warning(disable : 4996)
 
 void initMain(Main* main) {
@@ -31,11 +32,6 @@ char retireMain(Main* main, int indice) {
 	return lettre;
 }
 
-int triAlphabetique(const void* a, const void* b) {
-	char charA = *(char*)a;
-	char charB = *(char*)b;
-	return (charA - charB);
-}
 
 void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
 	srand(time(NULL));
