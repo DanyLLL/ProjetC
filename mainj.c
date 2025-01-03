@@ -23,7 +23,7 @@ char retireMain(Main* main, int indice) {
 		main->chevalets[i] = main->chevalets[i + 1];
 	}
 	main->nb = main->nb - 1;
-	char* test_allocation = (char*)realloc(main->chevalets, sizeof(char) * (main->nb + 1));
+	char* test_allocation = (char*)realloc(main->chevalets, sizeof(char) * (main->nb + 2));
 	if (test_allocation) {
 		main->chevalets = test_allocation;
 	}
@@ -37,7 +37,7 @@ int triAlphabetique(const void* a, const void* b) {
 	return (charA - charB);
 }
 
-void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2){
+void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
 	srand(time(NULL));
 	for (int i = 0; i < 12;) {
 		int i1 = rand() % (pioche->nb - 1);
