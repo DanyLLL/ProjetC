@@ -12,6 +12,7 @@ enum {
 */
 typedef struct {
 	int nb; /// < Nombre de chevalets dans la pioche .
+	int ordre; /// < Ordre de jeu du joueur .
 	char* chevalets; /// < Chevalets dans la pioche .
 } Pioche;
 
@@ -21,16 +22,16 @@ typedef struct {
 void initPioche(Pioche* pioche);
 
 /**
-* @brief Ajoute une lettre à la pioche.
+* @brief Ajoute une lettre Ã  la pioche.
 */
 void ajoutePioche(Pioche* pioche, char lettre);
 
 /**
-* @brief Retire la lettre à un indice donné de la pioche.
+* @brief Retire la lettre Ã  un indice donnÃ© de la pioche.
 */
 char retirePioche(Pioche* pioche,int indice);
 
 /**
-* @brief Prépare les différentes lettres nécessaires pour l'Octo-verso.
+* @brief PrÃ©pare les diffÃ©rentes lettres nÃ©cessaires pour l'Octo-verso.
 */
 void preparePiocheJeu(Pioche* pioche);
