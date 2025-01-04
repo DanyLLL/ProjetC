@@ -13,27 +13,31 @@ int initRail(Rail* rail)
 }
 
 
-void ajtRail(Rail* rail, const char l, int sens) {
+char ajtRail(Rail* r, const char l, int sens) {
+    char tombe = ' ';
     if (sens == GAUCHE) {
         // Décaler toutes les lettres vers la droite
+        tombe = r->lettres[Last];
         for (int i = Last; i > 0; i--) {
-            rail->lettres[i] = rail->lettres[i - 1];
+            r->lettres[i] = r->lettres[i - 1];
         }
-        rail->lettres[0] = l; // Ajouter à la première position
+
+        r->lettres[0] = l; // Ajouter à la première position
     }
     else if (sens == DROITE) {
+        char tombe = r->lettres[0]; // Conserver l'élément qui "tombe" à gauche
         // Décaler toutes les lettres vers la gauche
         for (int i = 0; i < Last; i++) {
-            rail->lettres[i] = rail->lettres[i + 1];
+            r->lettres[i] = r->lettres[i + 1];
         }
-        rail->lettres[Last] = l; // Ajouter à la dernière position
+        // Ajouter la nouvelle lettre à la fin (sens de lecture conservé)
+        r->lettres[Last] = l;
+        return tombe;
     }
-
 }
 
 
-void affRail(Rail* rail)
-{
+void affRail(Rail* rail){
     printf("R : ");
     // Affichage côté recto (de 0 à 8)
     for (int i = 0; i <= Last; i++) {
@@ -51,18 +55,24 @@ void affRail(Rail* rail)
 }
 
 
-void ajtMotRail(Rail* rail, const char* m, int sens) {
+char* ajtMotRail(Rail* r, const char* m, int sens) {
     int longueur = strlen(m);
+    char* tombe = (char*)malloc(longueur + sizeof(char));
+    int ind = 0;
     if (sens == GAUCHE) {
         for (int i = longueur - 1; i >= 0; i--) {
-            ajtRail(rail, m[i], GAUCHE); // Insérer de gauche à droite
+            tombe[ind++] = ajtRail(r, m[i], GAUCHE);
+
         }
     }
     else if (sens == DROITE) {
         for (int i = 0; i < longueur; i++) {
-            ajtRail(rail, m[i], DROITE); // Insérer de droite à gauche
+            tombe[ind++] = ajtRail(r, m[i], DROITE);
         }
+
     }
+    tombe[ind] = '\0';
+    return tombe;
 }
 
 char* recupMotRail(Rail* rail, int nb, int sens) {
@@ -85,13 +95,15 @@ char* recupMotRail(Rail* rail, int nb, int sens) {
     }
     else if (sens == DROITE) {
         for (int i = 0; i < nb; i++) {
-            mot[i] = rail->lettres[Last - i]; // Lire depuis la fin
+            mot[i] = rail->lettres[Last - (nb - 1) + i];
         }
     }
 
+    printf("mot %s\n", mot);
     mot[nb] = '\0'; // Ajouter le caractère de fin de chaîne
     return mot;
 }
+
 
 
 
