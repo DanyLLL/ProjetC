@@ -99,7 +99,6 @@ char* recupMotRail(Rail* rail, int nb, int sens) {
         }
     }
     mot[nb] = '\0'; // Ajouter le caractère de fin de chaîne
-    printf("le mot : %s \n", mot);
     return mot;
 }
 
