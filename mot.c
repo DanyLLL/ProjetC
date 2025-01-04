@@ -56,6 +56,7 @@ int motJouable(const char* mot, Main* mainJ) {
         }
         if (!lettreTrouvee) {
             free(chevaletTemp); // Libérer la mémoire allouée
+            ("mot NON jouable a retourne 1 donc le test est  PAS bon \n");
             return 1; // Mot non jouable
         }
     }
@@ -70,7 +71,7 @@ int motJouable(const char* mot, Main* mainJ) {
             }
         }
     }
-
+    ("mot jouable a bien retourne 0 donc le test est bon \n");
     free(chevaletTemp); // Libérer la mémoire allouée après utilisation
     return 0; // Mot jouable
 }
@@ -189,6 +190,23 @@ void deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
     }
 }
 
+char* concatParenthesesEtHors(const char* chaine) {
+    if (!chaine) return NULL;
 
+    char* resultat = malloc(strlen(chaine) + 1);
+    int indexRes = 0, dansParentheses = 0;
+
+    for (int i = 0; chaine[i]; i++) {
+        if (chaine[i] == '(')
+            dansParentheses = 1;
+        else if (chaine[i] == ')')
+            dansParentheses = 0;
+        else if (dansParentheses || chaine[i] != '(')
+            resultat[indexRes++] = chaine[i];
+    }
+
+    resultat[indexRes] = '\0';
+    return resultat;
+}
 
 
