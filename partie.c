@@ -50,7 +50,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                 char* horsParentheses = NULL;
                 if (strcmp(RoV, "R") == 0) {
                     if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
@@ -77,7 +77,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                         }
                     }
                     else if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
@@ -109,7 +109,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                     initRail(&railVerso);
                     railVerso = inverseRail(rail);
                     if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
@@ -133,7 +133,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                         }
                     }
                     else if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
@@ -171,7 +171,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                 char* horsParentheses = NULL;
                 if (strcmp(RoV, "R") == 0) {
                     if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
@@ -190,7 +190,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                         }
                     }
                     else if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
@@ -214,7 +214,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                     initRail(&railVerso);
                     railVerso = inverseRail(rail);
                     if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
@@ -235,7 +235,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                         }
                     }
                     else if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0 && (strcmp(mot_J1, mot_J2) == 1)) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
