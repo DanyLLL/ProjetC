@@ -200,12 +200,9 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                             return 0;
                         }
                         else {
-                            printf("main : %s et dans cette boucle la %s \n",J2->chevalets, horsParentheses);
                             for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                printf("%s \n", horsParentheses[i]);
                                 ajouteMain(J2, horsParentheses[i]);
                             }
-                            printf("main : %s \n", J2->chevalets);
                             qsort(J2->chevalets, strlen(J2->chevalets), sizeof(char), triAlphabetique);
                             return 1;
                         }
