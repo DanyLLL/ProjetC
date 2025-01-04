@@ -14,10 +14,12 @@ typedef struct {
 
 int initRail(Rail* r);
 
-void ajtRail(Rail* r, const char l, int sens);
+char ajtRail(Rail* r, const char l, int sens);
 
 void affRail(Rail* r);
 
-void ajtMotRail(Rail* r, const char* m, int sens);
+char* ajtMotRail(Rail* r, const char* m, int sens);
 
 char* recupMotRail(Rail* rail, int nb, int sens);
+
+Rail inverseRail(const Rail* rail);
