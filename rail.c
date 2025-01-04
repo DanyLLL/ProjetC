@@ -98,13 +98,21 @@ char* recupMotRail(Rail* rail, int nb, int sens) {
             mot[i] = rail->lettres[Last - (nb - 1) + i];
         }
     }
-
-    printf("mot %s\n", mot);
     mot[nb] = '\0'; // Ajouter le caractère de fin de chaîne
+    printf("le mot : %s \n", mot);
     return mot;
 }
 
+Rail inverseRail(const Rail* rail) {
+    Rail railInverse;
+    initRail(&railInverse); // Initialisation du rail inversé
 
+    for (int i = 0; i <= Last; i++) {
+        railInverse.lettres[i] = rail->lettres[Last - i]; // Copier les lettres en ordre inversé
+    }
+
+    return railInverse; // Retourner le rail inversé
+}
 
 
 
