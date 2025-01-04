@@ -25,15 +25,15 @@ char ajtRail(Rail* r, const char l, int sens) {
         r->lettres[0] = l; // Ajouter à la première position
     }
     else if (sens == DROITE) {
-        char tombe = r->lettres[0]; // Conserver l'élément qui "tombe" à gauche
+        tombe = r->lettres[0];
         // Décaler toutes les lettres vers la gauche
         for (int i = 0; i < Last; i++) {
             r->lettres[i] = r->lettres[i + 1];
         }
-        // Ajouter la nouvelle lettre à la fin (sens de lecture conservé)
-        r->lettres[Last] = l;
-        return tombe;
+
+        r->lettres[Last] = l; // Ajouter à la dernière position
     }
+    return tombe;
 }
 
 
