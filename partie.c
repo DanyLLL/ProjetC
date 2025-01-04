@@ -71,7 +71,7 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail) {
                         printf("%s %s %d\n",horsParentheses,entreParentheses, strlen(entreParentheses));
                         if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
                             printf("ici %d \n", strlen(horsParentheses));
-                            for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                            for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
                                 ajouteMain(J2, ajtRail(rail, horsParentheses[i], DROITE));
                             }
                             printf("1 : %s\n", J1->chevalets);
