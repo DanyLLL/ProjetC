@@ -163,13 +163,8 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail,Pioche* pioche) {
                     if (strlen(mot_J1) == 1 && motJouable(mot_J1, J1) == 0) {
                         srand(time(NULL));
                         int i1 = rand() % (pioche->nb - 1);
-                        printf("i1 : %d\n", i1);
-                        printf("pioche avant : %s\n", pioche->chevalets);
-                        printf("main avant : %s\n", J1->chevalets);
                         ajouteMain(J1, pioche->chevalets[i1]);
                         retirePioche(pioche, i1);
-                        printf("pioche apres : %s\n", pioche->chevalets);
-                        printf("main apres : %s\n", J1->chevalets);
                         return 0;
                     }
                     else {
@@ -279,13 +274,8 @@ int gereTours(Main* J1, Main* J2,const char* joueur,Rail* rail,Pioche* pioche) {
                     if (strlen(mot_J2) == 1 && motJouable(mot_J2, J2) == 0) {
                         srand(time(NULL));
                         int i1 = rand() % (pioche->nb - 1);
-                        printf("i1 : %d\n", i1);
-                        printf("pioche avant : %s\n", pioche->chevalets);
-                        printf("main avant : %s\n", J2->chevalets);
                         ajouteMain(J2, pioche->chevalets[i1]);
                         retirePioche(pioche, i1);
-                        printf("pioche apres : %s\n", pioche->chevalets);
-                        printf("main apres : %s\n", J2->chevalets);
                         return 0;
                     }
                     else {
