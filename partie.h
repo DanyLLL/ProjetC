@@ -21,12 +21,12 @@ int jouerTour(const char* joueur, char* RoV, char* mot);
 /**
 * @brief Gère les tours du jeu.
 */
-int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail);
+int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche);
 
 /**
 * @brief Déroule la partie après avoir décidé de l'ordre de jeu.
 */
-void deroulePartie(J1, J2, rail);
+void deroulePartie(Main* J1, Main* J2, Rail* rail, Pioche* pioche);
 
 /**
 * @brief Affiche les mains des joueurs et l'état du rail.
