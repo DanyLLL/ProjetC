@@ -45,6 +45,11 @@ int jouerTour(const char* joueur, char* RoV, char* mot) {
 int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche) {
     char mot_J1[MAX_MOT], mot_J2[MAX_MOT];
     char RoV[MAX_ROV];
+    Rail railVerso;
+    Rail railAnterieur;
+    initRail(&railVerso);
+    initRail(&railAnterieur);
+    railVerso = inverseRail(rail);
     while (1) {
         if (joueur == "1") {
             if (jouerTour(joueur, RoV, mot_J1) == 0) {
@@ -55,9 +60,11 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
                                         ajouteMain(J2, ajtRail(rail, horsParentheses[i], GAUCHE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J1->nb == 0) {
                                         return -1;
                                     }
@@ -83,9 +90,11 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
                                         ajouteMain(J2, ajtRail(rail, horsParentheses[i], DROITE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J1->nb == 0) {
                                         return -1;
                                     }
@@ -109,16 +118,15 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                     }
                 }
                 else if (strcmp(RoV, "V") == 0) {
-                    Rail railVerso;
-                    initRail(&railVerso);
-                    railVerso = inverseRail(rail);
                     if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J2, ajtRail(&railVerso, horsParentheses[i], GAUCHE));
+                                        ajouteMain(J2, ajtRail(rail, horsParentheses[i], GAUCHE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J1->nb == 0) {
                                         return -1;
                                     }
@@ -143,9 +151,11 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J2, ajtRail(&railVerso, horsParentheses[i], DROITE));
+                                        ajouteMain(J2, ajtRail(rail, horsParentheses[i], GAUCHE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J1->nb == 0) {
                                         return -1;
                                     }
@@ -196,9 +206,11 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
                                         ajouteMain(J1, ajtRail(rail, horsParentheses[i], GAUCHE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J2->nb == 0) {
                                         return -1;
                                     }
@@ -218,9 +230,11 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
                                         ajouteMain(J1, ajtRail(rail, horsParentheses[i], DROITE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J2->nb == 0) {
                                         return -1;
                                     }
@@ -238,16 +252,15 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                     }
                 }
                 else if (strcmp(RoV, "V") == 0) {
-                    Rail railVerso;
-                    initRail(&railVerso);
-                    railVerso = inverseRail(rail);
                     if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J1, ajtRail(&railVerso, horsParentheses[i], GAUCHE));
+                                        ajouteMain(J1, ajtRail(rail, horsParentheses[i], GAUCHE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J2->nb == 0) {
                                         return -1;
                                     }
@@ -269,9 +282,11 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Pioche* pioche
                         if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
                             if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
                                 if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
+                                    strcpy(railAnterieur.lettres, rail->lettres);
                                     for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J1, ajtRail(&railVerso, horsParentheses[i], DROITE));
+                                        ajouteMain(J1, ajtRail(rail, horsParentheses[i], DROITE));
                                     }
+                                    printf("rail au tour d'avant : %s \n", railAnterieur.lettres);
                                     if (J2->nb == 0) {
                                         return -1;
                                     }
