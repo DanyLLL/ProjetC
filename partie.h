@@ -16,7 +16,7 @@ int coupValide(const char* RoV, const char* mot);
 /**
 * @brief Permet à un joueur de jouer un tour.
 */
-int jouerTour(const char* joueur, char* RoV, char* mot);
+int proposeJouer(const char* joueur, char* RoV, char* mot);
 
 /**
 * @brief Vérifie si un coup est légal.
