@@ -174,7 +174,15 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                     }
                 }
                 else if (strcmp(RoV, "r") == 0) {
-                    printf("%s \n", railAnt->lettres);
+                    if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
+                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
+                            if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0 && strlen(concatParenthesesEtHors(mot_J1), "ods4.txt") == MAX_RAIL) {
+                                if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(railAnt, strlen(entreParentheses), DROITE)) == 0)) {
+                                    printf("-1> ");
+                                }
+                            }
+                        }
+                    }
                 }
                 else if (strcmp(RoV, "v") == 0) {
                     printf("%s \n", railAnt->lettres);
