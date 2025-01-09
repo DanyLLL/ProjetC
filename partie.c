@@ -42,14 +42,16 @@ int proposeJouer(const char* joueur, char* RoV, char* mot) {
     return coupValide(RoV, mot);
 }
 
-int coupLegal(const char* motJ,const char* horsParentheses,const char* entreParentheses){
-    printf("%d %d \n", strlen(horsParentheses), strlen(entreParentheses));
-    if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2 && motExiste(concatParenthesesEtHors(motJ), "ods4.txt") == 0) {
-        printf("test2\n");
+int proposeRetraitChevalet(Main* mainJ, Pioche* pioche,const char* joueur) {
+    printf("\n-%s> ",joueur);
+    char lettre[2];
+    scanf("%s",lettre);
+    if (strlen(lettre) == 1 && motJouable(lettre,mainJ) == 0) {
         return 0;
     }
     return 1;
 }
+
 
 
 int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt, Pioche* pioche) {
@@ -62,11 +64,17 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
             if (proposeJouer(joueur, RoV, mot_J1) == 0) {
                 if (strcmp(RoV, "R") == 0 ) {
                     if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (coupLegal(mot_J1,&entreParentheses,&horsParentheses) == 0){
+                        if (coupLegal(mot_J1, &entreParentheses, &horsParentheses) == 0) {
                             if (motJouable(horsParentheses, J1) == 0 && strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0) {
                                 strcpy(railAnt->lettres, rail->lettres);
                                 for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
                                     ajouteMain(J2, ajtRail(rail, horsParentheses[i], GAUCHE));
+                                }
+                                if (estOcto(concatParenthesesEtHors(mot_J1) == 0)) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J1, pioche, joueur) == 1) {
+                                    }
+                                    return 0;
                                 }
                                 return 0;
                             }
@@ -85,6 +93,12 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                                 for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
                                     ajouteMain(J2, ajtRail(rail, horsParentheses[i], DROITE));
                                 }
+                                if (estOcto(concatParenthesesEtHors(mot_J1)) == 0) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J1, pioche, joueur) == 1) {
+                                    }
+                                }
+                                return 0;
                             }
                             else {
                                 for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
@@ -111,6 +125,12 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                                 }
                                 railVerso = inverseRail(&railVerso);
                                 strcpy(rail->lettres, railVerso.lettres);
+                                if (estOcto(concatParenthesesEtHors(mot_J1) == 0)) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J1, pioche, joueur) == 1) {
+                                    }
+                                    return 0;
+                                }
                                 return 0;
                             }
                             else {
@@ -133,6 +153,12 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                                 }
                                 railVerso = inverseRail(&railVerso);
                                 strcpy(rail->lettres, railVerso.lettres);
+                                if (estOcto(concatParenthesesEtHors(mot_J1) == 0)) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J1, pioche, joueur) == 1) {
+                                    }
+                                    return 0;
+                                }
                                 return 0;
                             }
                             else {
@@ -183,6 +209,12 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                                 for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
                                     ajouteMain(J1, ajtRail(rail, horsParentheses[i], GAUCHE));
                                 }
+                                if (estOcto(concatParenthesesEtHors(mot_J2)) == 0) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J2, pioche, joueur) == 1) {
+                                    }
+                                    return 0;
+                                }
                                 return 0;
                             }
                             else {
@@ -202,6 +234,12 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                                 strcpy(railAnt->lettres, rail->lettres);
                                 for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
                                     ajouteMain(J1, ajtRail(rail, horsParentheses[i], DROITE));
+                                }
+                                if (estOcto(concatParenthesesEtHors(mot_J2)) == 0) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J2, pioche, joueur) == 1) {
+                                    }
+                                    return 0;
                                 }
                                 return 0;
                             }
@@ -230,6 +268,12 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                                 }
                                 railVerso = inverseRail(&railVerso);
                                 strcpy(rail->lettres, railVerso.lettres);
+                                if (estOcto(concatParenthesesEtHors(mot_J2)) == 0) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J2, pioche, joueur) == 1) {
+                                    }
+                                    return 0;
+                                }
                                 return 0;
                             }
                             else {
@@ -252,6 +296,12 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                                 }
                                 railVerso = inverseRail(&railVerso);
                                 strcpy(rail->lettres, railVerso.lettres);
+                                if (estOcto(concatParenthesesEtHors(mot_J2)) == 0) {
+                                    afficheSituationCouranteJeu(J1, J2, rail);
+                                    while (proposeRetraitChevalet(J2, pioche, joueur) == 1) {
+                                    }
+                                    return 0;
+                                }
                                 return 0;
                             }
                             else{
