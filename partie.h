@@ -21,7 +21,7 @@ int jouerTour(const char* joueur, char* RoV, char* mot);
 /**
 * @brief Vérifie si un coup est légal.
 */
-int coupLegal(Rail* rail, Main* mainJ, const char* mot, const char* horsParentheses, const char* entreParentheses, int sens);
+int coupLegal(const char* motJ, const char* horsParentheses, const char* entreParentheses);
 
 /**
 * @brief Gère les tours du jeu.
