@@ -42,12 +42,13 @@ int jouerTour(const char* joueur, char* RoV, char* mot) {
     return coupValide(RoV, mot);
 }
 
-int coupLegal(Rail* rail,Main* mainJ,const char* mot,const char* horsParentheses,const char* entreParentheses,int sens) {
+int coupLegal(Rail* rail, Main* mainJ, const char* mot, const char* horsParentheses, const char* entreParentheses, int sens) {
     if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2 && motExiste(concatParenthesesEtHors(mot), "ods4.txt") && motJouable(horsParentheses, mainJ) == 0 && strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), sens)) == 0) {
         return 0;
     }
     return 1;
 }
+
 
 int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt, Pioche* pioche) {
     char mot_J1[MAX_MOT], mot_J2[MAX_MOT];
@@ -181,15 +182,7 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                     }
                 }
                 else if (strcmp(RoV, "r") == 0) {
-                    if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0 && strlen(concatParenthesesEtHors(mot_J1), "ods4.txt") == MAX_RAIL) {
-                                if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(railAnt, strlen(entreParentheses), DROITE)) == 0)) {
-                                    printf("-1> ");
-                                }
-                            }
-                        }
-                    }
+                    printf("%s \n", railAnt->lettres);
                 }
                 else if (strcmp(RoV, "v") == 0) {
                     printf("%s \n", railAnt->lettres);
