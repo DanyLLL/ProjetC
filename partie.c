@@ -42,8 +42,10 @@ int jouerTour(const char* joueur, char* RoV, char* mot) {
     return coupValide(RoV, mot);
 }
 
-int coupLegal(Rail* rail, Main* mainJ, const char* mot, const char* horsParentheses, const char* entreParentheses, int sens) {
-    if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2 && motExiste(concatParenthesesEtHors(mot), "ods4.txt") && motJouable(horsParentheses, mainJ) == 0 && strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), sens)) == 0) {
+int coupLegal(const char* motJ,const char* horsParentheses,const char* entreParentheses){
+    printf("%d %d \n", strlen(horsParentheses), strlen(entreParentheses));
+    if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2 && motExiste(concatParenthesesEtHors(motJ), "ods4.txt") == 0) {
+        printf("test2\n");
         return 0;
     }
     return 1;
@@ -53,57 +55,41 @@ int coupLegal(Rail* rail, Main* mainJ, const char* mot, const char* horsParenthe
 int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt, Pioche* pioche) {
     char mot_J1[MAX_MOT], mot_J2[MAX_MOT];
     char RoV[MAX_ROV];
+    char* entreParentheses = NULL;
+    char* horsParentheses = NULL;
     while (1) {
         if (joueur == "1") {
             if (jouerTour(joueur, RoV, mot_J1) == 0) {
-                char* entreParentheses = NULL;
-                char* horsParentheses = NULL;
                 if (strcmp(RoV, "R") == 0 ) {
                     if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J2, ajtRail(rail, horsParentheses[i], GAUCHE));
-                                    }
-                                    return 0;
+                        if (coupLegal(mot_J1,&entreParentheses,&horsParentheses) == 0){
+                            if (motJouable(horsParentheses, J1) == 0 && strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                                    ajouteMain(J2, ajtRail(rail, horsParentheses[i], GAUCHE));
                                 }
-                                else {
-                                    for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J1, horsParentheses[i]);
-                                    }
-                                    qsort(J1->chevalets, strlen(J1->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
-                                }
+                                return 0;
                             }
                             else {
+                                for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                                    ajouteMain(J1, horsParentheses[i]);
+                                }
                                 return 1;
                             }
                         }
-                        else {
-                            return 1;
-                        }
                     }
                     else if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    printf("rail avant : %s", railAnt->lettres);
-                                    for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J2, ajtRail(rail, horsParentheses[i], DROITE));
-                                    }
-                                }
-                                else {
-                                    for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J1, horsParentheses[i]);
-                                    }
-                                    qsort(J1->chevalets, strlen(J1->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
+                        if (coupLegal(mot_J1, &entreParentheses, &horsParentheses) == 0) {
+                            if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J2, ajtRail(rail, horsParentheses[i], DROITE));
                                 }
                             }
                             else {
+                                for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J1, horsParentheses[i]);
+                                }
                                 return 1;
                             }
                         }
@@ -117,25 +103,21 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                     initRail(&railVerso);
                     railVerso = inverseRail(rail);
                     if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    printf("rail avant : %s", railAnt->lettres);
-                                    for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J2, ajtRail(&railVerso, horsParentheses[i], GAUCHE));
-                                    }
-                                    railVerso = inverseRail(&railVerso);
-                                    strcpy(rail->lettres, railVerso.lettres);
-                                    return 0;
+                        if (coupLegal(mot_J1, &entreParentheses, &horsParentheses) == 0) {
+                            if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                                    ajouteMain(J2, ajtRail(&railVerso, horsParentheses[i], GAUCHE));
                                 }
-                                else {
-                                    for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J1, horsParentheses[i]);
-                                    }
-                                    qsort(J1->chevalets, strlen(J1->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
+                                railVerso = inverseRail(&railVerso);
+                                strcpy(rail->lettres, railVerso.lettres);
+                                return 0;
+                            }
+                            else {
+                                for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                                    ajouteMain(J1, horsParentheses[i]);
                                 }
+                                return 1;
                             }
                         }
                         else {
@@ -143,25 +125,21 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                         }
                     }
                     else if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J1), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    printf("rail avant : %s", railAnt->lettres);
-                                    for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J2, ajtRail(&railVerso, horsParentheses[i], DROITE));
-                                    }
-                                    railVerso = inverseRail(&railVerso);
-                                    strcpy(rail->lettres, railVerso.lettres);
-                                    return 0;
+                        if (coupLegal(mot_J1, &entreParentheses, &horsParentheses) == 0) {
+                            if ((motJouable(horsParentheses, J1) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J2, ajtRail(&railVerso, horsParentheses[i], DROITE));
                                 }
-                                else {
-                                    for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J1, horsParentheses[i]);
-                                    }
-                                    qsort(J1->chevalets, strlen(J1->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
+                                railVerso = inverseRail(&railVerso);
+                                strcpy(rail->lettres, railVerso.lettres);
+                                return 0;
+                            }
+                            else {
+                                for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J1, horsParentheses[i]);
                                 }
+                                return 1;
                             }
                         }
                         else {
@@ -197,49 +175,45 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
         }
         else if (joueur == "2") {
             if (jouerTour(joueur, RoV, mot_J2) == 0) {
-                char* entreParentheses = NULL;
-                char* horsParentheses = NULL;
                 if (strcmp(RoV, "R") == 0) {
                     if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    printf("rail avant : %s", railAnt->lettres);
-                                    for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J1, ajtRail(rail, horsParentheses[i], GAUCHE));
-                                    }
-                                    return 0;
+                        if (coupLegal(mot_J2, &entreParentheses, &horsParentheses) == 0) {
+                            if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0)) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                                    ajouteMain(J1, ajtRail(rail, horsParentheses[i], GAUCHE));
                                 }
-                                else {
-                                    for (int i = 0; i <= strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J2, horsParentheses[i]);
-                                    }
-                                    qsort(J2->chevalets, strlen(J2->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
-                                }
+                                return 0;
                             }
+                            else {
+                                for (int i = 0; i <= strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J2, horsParentheses[i]);
+                                }
+                                return 1;
+                            }
+                        }
+                        else {
+                            return 1;
                         }
                     }
                     else if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    printf("rail avant : %s", railAnt->lettres);
-                                    for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J1, ajtRail(rail, horsParentheses[i], DROITE));
-                                    }
-                                    return 0;
+                        if (coupLegal(mot_J2, &entreParentheses, &horsParentheses) == 0) {
+                            if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), DROITE)) == 0)) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J1, ajtRail(rail, horsParentheses[i], DROITE));
                                 }
-                                else {
-                                    for (int i = 0; i <= strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J2, horsParentheses[i]);
-                                    }
-                                    qsort(J2->chevalets, strlen(J2->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
-                                }
+                                return 0;
                             }
+                            else {
+                                for (int i = 0; i <= strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J2, horsParentheses[i]);
+                                }
+                                return 1;
+                            }
+                        }
+                        else {
+                            return 1;
                         }
                     }
                 }
@@ -248,49 +222,47 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
                     initRail(&railVerso);
                     railVerso = inverseRail(rail);
                     if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    printf("rail avant : %s", railAnt->lettres);
-                                    for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J1, ajtRail(&railVerso, horsParentheses[i], GAUCHE));
-                                    }
-                                    railVerso = inverseRail(&railVerso);
-                                    strcpy(rail->lettres, railVerso.lettres);
-                                    return 0;
+                        if (coupLegal(mot_J2, &entreParentheses, &horsParentheses) == 0) {
+                            if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), GAUCHE)) == 0)) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                                    ajouteMain(J1, ajtRail(&railVerso, horsParentheses[i], GAUCHE));
                                 }
-                                else {
-                                    for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                                        ajouteMain(J2, horsParentheses[i]);
-                                    }
-                                    qsort(J2->chevalets, strlen(J2->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
-                                }
+                                railVerso = inverseRail(&railVerso);
+                                strcpy(rail->lettres, railVerso.lettres);
+                                return 0;
                             }
+                            else {
+                                for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
+                                    ajouteMain(J2, horsParentheses[i]);
+                                }
+                                return 1;
+                            }
+                        }
+                        else {
+                            return 1;
                         }
                     }
                     else if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == DROITE) { //Le mot du joueur est rentré par la droite
-                        if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2) {
-                            if (motExiste(concatParenthesesEtHors(mot_J2), "ods4.txt") == 0) {
-                                if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
-                                    strcpy(railAnt->lettres, rail->lettres);
-                                    printf("rail avant : %s", railAnt->lettres);
-                                    for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J1, ajtRail(&railVerso, horsParentheses[i], DROITE));
-                                    }
-                                    railVerso = inverseRail(&railVerso);
-                                    strcpy(rail->lettres, railVerso.lettres);
-                                    return 0;
+                        if (coupLegal(mot_J2, &entreParentheses, &horsParentheses) == 0) {
+                            if ((motJouable(horsParentheses, J2) == 0) && (strcmp(entreParentheses, recupMotRail(&railVerso, strlen(entreParentheses), DROITE)) == 0)) {
+                                strcpy(railAnt->lettres, rail->lettres);
+                                for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J1, ajtRail(&railVerso, horsParentheses[i], DROITE));
                                 }
-                                else{
-                                    for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                                        ajouteMain(J2, horsParentheses[i]);
-                                    }
-                                    qsort(J2->chevalets, strlen(J2->chevalets), sizeof(char), triAlphabetique);
-                                    return 1;
-                                }
+                                railVerso = inverseRail(&railVerso);
+                                strcpy(rail->lettres, railVerso.lettres);
+                                return 0;
                             }
+                            else{
+                                for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
+                                    ajouteMain(J2, horsParentheses[i]);
+                                }
+                                return 1;
+                            }
+                        }
+                        else {
+                            return 1;
                         }
                     }
                 }
