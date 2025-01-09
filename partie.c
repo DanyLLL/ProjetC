@@ -36,7 +36,7 @@ int coupValide(const char* RoV, const char* mot) {
     }
 }
 
-int jouerTour(const char* joueur, char* RoV, char* mot) {
+int proposeJouer(const char* joueur, char* RoV, char* mot) {
     printf("\n%s>", joueur);
     scanf("%s %s", RoV, mot);
     return coupValide(RoV, mot);
@@ -59,7 +59,7 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
     char* horsParentheses = NULL;
     while (1) {
         if (joueur == "1") {
-            if (jouerTour(joueur, RoV, mot_J1) == 0) {
+            if (proposeJouer(joueur, RoV, mot_J1) == 0) {
                 if (strcmp(RoV, "R") == 0 ) {
                     if (extraireParenthesesEtMot(mot_J1, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
                         if (coupLegal(mot_J1,&entreParentheses,&horsParentheses) == 0){
@@ -174,7 +174,7 @@ int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt,
             }
         }
         else if (joueur == "2") {
-            if (jouerTour(joueur, RoV, mot_J2) == 0) {
+            if (proposeJouer(joueur, RoV, mot_J2) == 0) {
                 if (strcmp(RoV, "R") == 0) {
                     if (extraireParenthesesEtMot(mot_J2, &entreParentheses, &horsParentheses) == GAUCHE) { //Le mot du joueur est rentré par la gauche
                         if (coupLegal(mot_J2, &entreParentheses, &horsParentheses) == 0) {
