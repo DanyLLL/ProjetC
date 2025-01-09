@@ -18,10 +18,7 @@ int coupValide(const char* RoV, const char* mot);
 */
 int proposeJouer(const char* joueur, char* RoV, char* mot);
 
-/**
-* @brief Vérifie si un coup est légal.
-*/
-int coupLegal(const char* motJ, const char* horsParentheses, const char* entreParentheses);
+int proposeRetraitChevalet(Main* mainJ, Pioche* pioche, const char* joueur);
 
 /**
 * @brief Gère les tours du jeu.
