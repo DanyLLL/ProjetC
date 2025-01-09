@@ -42,6 +42,13 @@ int jouerTour(const char* joueur, char* RoV, char* mot) {
     return coupValide(RoV, mot);
 }
 
+int coupLegal(Rail* rail,Main* mainJ,const char* mot,const char* horsParentheses,const char* entreParentheses) {
+    if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2 && motExiste(concatParenthesesEtHors(mot), "ods4.txt" && motJouable(horsParentheses, mainJ) == 0) && strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), GAUCHE)) == 0) {
+        return 0;
+    }
+    return 1;
+}
+
 int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt, Pioche* pioche) {
     char mot_J1[MAX_MOT], mot_J2[MAX_MOT];
     char RoV[MAX_ROV];
