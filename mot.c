@@ -47,16 +47,17 @@ int motJouable(const char* mot, Main* mainJ) {
     // Vérifier si le mot est jouable
     for (int i = 0; i < strlen(mot); i++) {
         int lettreTrouvee = 0;
-        for (int j = 0; j < strlen(mainJ->chevalets); j++) {
+        for (int j = 0; j < strlen(mainJ->chevalets) + 1; j++) {
+            printf("%c", chevaletTemp[j]);
             if (chevaletTemp[j] == mot[i]) {
                 lettreTrouvee = 1;
                 chevaletTemp[j] = '*'; // Marquer la lettre comme utilisée
                 break;
             }
         }
-        if (!lettreTrouvee) {
+        if (lettreTrouvee == 0) {
             free(chevaletTemp); // Libérer la mémoire allouée
-            ("mot NON jouable a retourne 1 donc le test est  PAS bon \n");
+            printf(" il est PAS jouable\n");
             return 1; // Mot non jouable
         }
     }
@@ -71,8 +72,8 @@ int motJouable(const char* mot, Main* mainJ) {
             }
         }
     }
-    ("mot jouable a bien retourne 0 donc le test est bon \n");
     free(chevaletTemp); // Libérer la mémoire allouée après utilisation
+    printf(" il est jouable\n");
     return 0; // Mot jouable
 }
 
@@ -131,23 +132,23 @@ const char* extraireParenthesesEtMot(const char* chaine, char** entreParenthese,
     *horsParenthese = malloc(sizeof(char));
     (*horsParenthese)[0] = '\0';
 
-    int inParentheses = 0;
-    int parenthesesEncounteredFirst = -1; // -1: indéterminé, 0: horsParenthese d'abord, 1: entreParentheses d'abord
+    int entreParentheses = 0;
+    int parenthesesVues = -1; // -1: indéterminé, 0: horsParenthese d'abord, 1: entreParentheses d'abord
 
     for (int i = 0; chaine[i] != '\0'; i++) {
         if (chaine[i] == '(') {
-            inParentheses = 1; // Début du contenu entre parenthèses
-            if (parenthesesEncounteredFirst == -1) {
-                parenthesesEncounteredFirst = 1; // Les parenthèses viennent d'abord
+            entreParentheses = 1; // Début du contenu entre parenthèses
+            if (parenthesesVues == -1) {
+                parenthesesVues = 1; // Les parenthèses viennent d'abord
             }
         }
         else if (chaine[i] == ')') {
-            inParentheses = 0; // Fin du contenu entre parenthèses
+            entreParentheses = 0; // Fin du contenu entre parenthèses
         }
         else {
-            char** target = inParentheses ? entreParenthese : horsParenthese;
-            if (!inParentheses && parenthesesEncounteredFirst == -1) {
-                parenthesesEncounteredFirst = 0; // horsParentheses vient d'abord
+            char** target = entreParentheses ? entreParenthese : horsParenthese;
+            if (!entreParentheses && parenthesesVues == -1) {
+                parenthesesVues = 0; // horsParentheses vient d'abord
             }
             size_t len = strlen(*target);
             *target = realloc(*target, len + 2); // Redimensionner pour un nouveau caractère
@@ -156,7 +157,7 @@ const char* extraireParenthesesEtMot(const char* chaine, char** entreParenthese,
         }
     }
 
-    return (parenthesesEncounteredFirst == 0) ? GAUCHE : DROITE;
+    return (parenthesesVues == 0) ? GAUCHE : DROITE;
 }
 
 
@@ -175,7 +176,7 @@ void deterOrdreJeu(Main* mainJ1, Main* mainJ2,Rail* rail) {
     while (motJ2Valide == 0) {
         printf("2> ");
         scanf("%s", mot_dep_J2);
-        if (strlen(mot_dep_J2) == 4 && motExiste(mot_dep_J2, "ods4.txt") == 0 && motJouable(mot_dep_J2, mainJ2) == 0) {
+        if (strlen(mot_dep_J2) == 4 && motExiste(mot_dep_J2, "ods4.txt") == 0 && motJouable(mot_dep_J2, mainJ2) == 0 && mot_dep_J1 != mot_dep_J2) {
             motJ2Valide = 1;
         }
     }
@@ -204,9 +205,24 @@ char* concatParenthesesEtHors(const char* chaine) {
         else if (dansParentheses || chaine[i] != '(')
             resultat[indexRes++] = chaine[i];
     }
-
     resultat[indexRes] = '\0';
+    printf(" le mot forme : %s\n", resultat);
     return resultat;
 }
+
+int coupLegal(const char* motJ, const char* horsParentheses, const char* entreParentheses) {
+    if (strlen(horsParentheses) <= 6 && strlen(horsParentheses) >= 1 && strlen(entreParentheses) >= 2 && motExiste(concatParenthesesEtHors(motJ), "ods4.txt") == 0) {
+        return 0;
+    }
+    return 1;
+}
+
+int estOcto(const char* mot) {
+    if (strlen(mot) == 8) {
+        return 0;
+    }
+    return 1;
+}
+
 
 
