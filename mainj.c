@@ -34,9 +34,33 @@ char retireMain(Main* main, int indice) {
 
 
 void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
+	ajouteMain(mainJ1, 'A');   // A
+	ajouteMain(mainJ1, 'C');  // C
+	ajouteMain(mainJ1, 'E');  // E
+	ajouteMain(mainJ1, 'E');  // E
+	ajouteMain(mainJ1, 'E');  // E
+	ajouteMain(mainJ1, 'L');  // L
+	ajouteMain(mainJ1, 'M');  // M
+	ajouteMain(mainJ1, 'N');  // N
+	ajouteMain(mainJ1, 'R');  // R
+	ajouteMain(mainJ1, 'S');  // S
+	ajouteMain(mainJ1, 'U');  // U
+	ajouteMain(mainJ1, 'V');  // V
 
+	ajouteMain(mainJ2, 'A');  // A
+	ajouteMain(mainJ2, 'B');  // B
+	ajouteMain(mainJ2, 'D');  // D
+	ajouteMain(mainJ2, 'E');  // E
+	ajouteMain(mainJ2, 'I');  // I
+	ajouteMain(mainJ2, 'L');  // L
+	ajouteMain(mainJ2, 'N');  // N
+	ajouteMain(mainJ2, 'O');  // O
+	ajouteMain(mainJ2, 'R');  // R
+	ajouteMain(mainJ2, 'R');  // R
+	ajouteMain(mainJ2, 'T');  // T
+	ajouteMain(mainJ2, 'U');  // U
 	srand(time(NULL));
-	for (int i = 0; i < 12;) {
+	/*for (int i = 0; i < 12;) {
 		int i1 = rand() % (pioche->nb - 1);
 		int i2 = rand() % (pioche->nb - 1);
 		if (i1 != i2 && i1 < pioche->nb && i2 < pioche->nb) {
@@ -46,7 +70,7 @@ void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
 			retirePioche(pioche, i2);
 			i = i + 1;
 		}
-	}
+	}*/
 	qsort(mainJ1->chevalets, strlen(mainJ1->chevalets), sizeof(char), triAlphabetique);
 	qsort(mainJ2->chevalets, strlen(mainJ2->chevalets), sizeof(char), triAlphabetique);
 	printf("1 : %s\n", mainJ1->chevalets);
