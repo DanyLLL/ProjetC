@@ -75,3 +75,11 @@ void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
 	printf("1 : %s\n", mainJ1->chevalets);
 	printf("2 : %s\n\n", mainJ2->chevalets);
 }
+
+void test_Mainj()
+{
+	Main m;
+	initMain(&m);
+	ajouteMain(&m, 'A');
+	assert(retireMain(&m, 0) == 'A');
+}
