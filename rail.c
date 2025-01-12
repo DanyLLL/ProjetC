@@ -15,7 +15,7 @@ int initRail(Rail* rail)
 }
 
 
-char ajtRail(Rail* r, const char l, int sens) {
+char ajouteRail(Rail* r, const char l, int sens) {
     char tombe = ' ';
     if (sens == GAUCHE) {
         // Décaler toutes les lettres vers la droite
@@ -39,7 +39,7 @@ char ajtRail(Rail* r, const char l, int sens) {
 }
 
 
-void affRail(Rail* rail){
+void afficherRail(Rail* rail){
     printf("R : ");
     // Affichage côté recto (de 0 à 8)
     for (int i = 0; i <= Last; i++) {
@@ -57,19 +57,19 @@ void affRail(Rail* rail){
 }
 
 
-char* ajtMotRail(Rail* r, const char* m, int sens) {
+char* ajouteMotRail(Rail* r, const char* m, int sens) {
     int longueur = strlen(m);
     char* tombe = (char*)malloc(longueur + sizeof(char));
     int ind = 0;
     if (sens == GAUCHE) {
         for (int i = longueur - 1; i >= 0; i--) {
-            tombe[ind++] = ajtRail(r, m[i], GAUCHE);
+            tombe[ind++] = ajouteRail(r, m[i], GAUCHE);
 
         }
     }
     else if (sens == DROITE) {
         for (int i = 0; i < longueur; i++) {
-            tombe[ind++] = ajtRail(r, m[i], DROITE);
+            tombe[ind++] = ajouteRail(r, m[i], DROITE);
         }
 
     }
