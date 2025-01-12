@@ -8,22 +8,20 @@
 */
 void lancerPartie(Pioche* pioche, Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, Rail* rail, Rail* railAnt);
 
-/**
-* @brief Vérifie si le coup du joueur est valide aux règles du jeu.
-*/
-int coupValide(const char* RoV, const char* mot);
 
 /**
-* @brief Permet à un joueur de jouer un tour.
+* @brief Propose à un joueur de jouer un tour.
 */
 int proposeJouer(const char* joueur, char* RoV, char* mot);
 
+/**
+* @brief Propose à un joueur de retirer un des chevalets de sa main.
+*/
 int proposeRetraitChevalet(Main* mainJ, Pioche* pioche, const char* joueur);
 
 /**
 * @brief Gère les tours du jeu.
 */
-
 int gereTours(Main* mainJ1, Main* mainJ2,Main* mainJ1Ant,Main* mainJ2Ant, const char* joueur, Rail* rail, Rail* railAnt, Pioche* pioche);
 
 /**
