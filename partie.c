@@ -4,9 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "partie.h"
-#include "mainj.h"
 #include "mot.h"
-#include "rail.h"
 
 #pragma warning(disable : 4996)
 
