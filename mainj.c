@@ -2,7 +2,6 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <time.h>
-#include "mainj.h"
 #include "mot.h"
 #pragma warning(disable : 4996)
 
