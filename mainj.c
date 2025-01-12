@@ -14,7 +14,7 @@ void ajouteMain(Main* main, char lettre) {
 	main->chevalets = (char*)realloc(main->chevalets, sizeof(char) * (main->nb + 2)); // On realloue la mémoire.
 	main->chevalets[main->nb] = lettre; // Ajoute la lettre
 	main->nb++;
-	main->chevalets[main->nb] = '\0'; 
+	main->chevalets[main->nb] = '\0';
 }
 
 char retireMain(Main* main, int indice) {
@@ -76,10 +76,16 @@ void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
 	printf("2 : %s\n\n", mainJ2->chevalets);
 }
 
-void test_Mainj()
-{
+void test_Mainj(){
 	Main m;
 	initMain(&m);
 	ajouteMain(&m, 'A');
 	assert(retireMain(&m, 0) == 'A');
+	ajouteMain(&m, 'B');
+	assert(retireMain(&m, 0) == 'B');
+	ajouteMain(&m, 'A');
+	assert(retireMain(&m, 0) == 'F');
+	ajouteMain(&m, 'B');
+	assert(retireMain(&m, 0) == 'X');
+
 }
