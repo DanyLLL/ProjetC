@@ -8,44 +8,53 @@ enum { MAX_ROV = 2 };
 
 typedef struct {
 	char lettres[MAX_RAIL];
-	int debut;
-	int fin;
 }Rail;
 
-
-
 /**
-* @brief Initialise le rail.
-*/
+* @brief initialise le rail 
+* @param[in,out] r le rail a initialisé
+**/
 int initRail(Rail* r);
 
-
-
 /**
-* @brief Ajoute une lettre au rail en fonction du sens.
-*/
+* @brief ajoute une caractere au rail
+* @param[in] r le rail
+* @param[in] l le caractere a ajouter
+* @param[in] sens (0 ou 1 donc GAUCHE OU DROITE) le cote duquel on ajoute l
+* @return le caractere qui "tombe" du rail
+**/
 char ajouteRail(Rail* r, const char l, int sens);
 
-
-
 /**
-* @brief Affiche le recto et le verso du rail.
-*/
+* @brief affiche un rail
+* @param[in] r le rail
+**/
 void afficherRail(Rail* r);
 
-
-
 /**
-* @brief Ajoute un mot au rail en fonction du sens.
-*/
+* @brief ajoute un mot au rail
+* @param[in] r le rail
+* @param[in] m le mot a ajouter
+* @param[in] sens (0 ou 1 donc GAUCHE OU DROITE) le cote duquel on ajoute m
+* @return le mot qui "tombe" du rail
+**/
 char* ajouteMotRail(Rail* r, const char* m, int sens);
 
 /**
-* @brief Récupère nb lettres à l'extrémité du rail en fonction du sens.
-*/
+* @brief recupere le mot sur le rail
+* @param[in] r le rail
+* @param[in] nb le nombre de caractere sur le rail
+* @param[in] sens (0 ou 1 donc GAUCHE OU DROITE)
+* @return le mot sur le rail
+**/
 char* recupMotRail(Rail* rail, int nb, int sens);
 
 /**
-* @brief Inverse le rail.
-*/
+* @brief cree l inverse d'un rail
+* @param[in] r le rail dont on veut connaitre l inverse
+* @return l'inverse du rail 
+**/
 Rail inverseRail(const Rail* rail);
+
+void test_Rail();
+
