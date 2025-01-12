@@ -3,12 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 #include "mainj.h"
+#pragma warning (disable : 4996)
 
 
 int initRail(Rail* rail)
 {
     for (int i = 0; i <= Last; i++)
         rail->lettres[i] = ' ';
+    rail->lettres[Last + 1] = '\0';
     return 0;
 }
 
@@ -112,6 +114,5 @@ Rail inverseRail(const Rail* rail) {
 
     return railInverse; // Retourner le rail inversé
 }
-
 
 
