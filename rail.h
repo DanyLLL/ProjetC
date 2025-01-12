@@ -11,50 +11,52 @@ typedef struct {
 }Rail;
 
 /**
-* @brief initialise le rail 
-* @param[in,out] r le rail a initialisé
+* @brief Initialise le rail.
+* @param[in,out] r le rail à initialiser.
 **/
 int initRail(Rail* r);
 
 /**
-* @brief ajoute une caractere au rail
-* @param[in] r le rail
-* @param[in] l le caractere a ajouter
+* @brief Ajoute un caractère au rail
+* @param[in] rail le rail de jeu.
+* @param[in] l le caractere à ajouter
 * @param[in] sens (0 ou 1 donc GAUCHE OU DROITE) le cote duquel on ajoute l
-* @return le caractere qui "tombe" du rail
+* @return la lettre qui "tombe" du rail
 **/
-char ajouteRail(Rail* r, const char l, int sens);
+char ajouteRail(Rail* rail, const char l, int sens);
 
 /**
 * @brief affiche un rail
-* @param[in] r le rail
+* @param[in] rail le rail.
 **/
-void afficherRail(Rail* r);
+void afficherRail(Rail* rail);
 
 /**
-* @brief ajoute un mot au rail
-* @param[in] r le rail
-* @param[in] m le mot a ajouter
-* @param[in] sens (0 ou 1 donc GAUCHE OU DROITE) le cote duquel on ajoute m
-* @return le mot qui "tombe" du rail
+* @brief Ajoute un mot au rail.
+* @param[in] rail le rail de jeu.
+* @param[in] m le mot à ajouter.
+* @param[in] sens (0 ou 1 donc GAUCHE OU DROITE) le cote duquel on ajoute m.
+* @return la lettre qui tombe du rail.
 **/
-char* ajouteMotRail(Rail* r, const char* m, int sens);
+char* ajouteMotRail(Rail* rail, const char* m, int sens);
 
 /**
-* @brief recupere le mot sur le rail
-* @param[in] r le rail
-* @param[in] nb le nombre de caractere sur le rail
+* @brief Recupere les nb lettres du rail au sens donné.
+* @param[in] rail le rail de jeu.
+* @param[in] nb le nombre de caractere sur le rail à récupérer sur l'extrémité.
 * @param[in] sens (0 ou 1 donc GAUCHE OU DROITE)
-* @return le mot sur le rail
+* @return les lettres à l'extrémité du rail.
 **/
 char* recupMotRail(Rail* rail, int nb, int sens);
 
 /**
-* @brief cree l inverse d'un rail
-* @param[in] r le rail dont on veut connaitre l inverse
-* @return l'inverse du rail 
+* @brief Crée l'inverse d'un rail.
+* @param[in] rail le rail dont on veut connaitre l'inverse.
+* @return l'inverse du rail.
 **/
 Rail inverseRail(const Rail* rail);
 
+/**
+* @brief Teste les fonctions spécifiques du composant rail.
+*/
 void test_Rail();
-
