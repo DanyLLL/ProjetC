@@ -6,7 +6,7 @@
 /**
 * @brief Lance toutes les fonctions permettant de lancer la partie.
 */
-void lancerPartie(Pioche* pioche, Main* J1, Main* J2, Rail* rail,Rail* railAnt);
+void lancerPartie(Pioche* pioche, Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, Rail* rail, Rail* railAnt);
 
 /**
 * @brief Vérifie si le coup du joueur est valide aux règles du jeu.
@@ -24,12 +24,12 @@ int proposeRetraitChevalet(Main* mainJ, Pioche* pioche, const char* joueur);
 * @brief Gère les tours du jeu.
 */
 
-int gereTours(Main* J1, Main* J2, const char* joueur, Rail* rail, Rail* railAnt, Pioche* pioche);
+int gereTours(Main* mainJ1, Main* mainJ2,Main* mainJ1Ant,Main* mainJ2Ant, const char* joueur, Rail* rail, Rail* railAnt, Pioche* pioche);
 
 /**
 * @brief Déroule la partie après avoir décidé de l'ordre de jeu.
 */
-void deroulePartie(Main* J1, Main* J2, Rail* rail, Rail* railAnt, Pioche* pioche);
+void deroulePartie(Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, Rail* rail, Rail* railAnt, Pioche* pioche);
 
 /**
 * @brief Affiche les mains des joueurs et l'état du rail.
