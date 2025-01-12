@@ -16,17 +16,9 @@ void afficheSituationCouranteJeu(Main* mainJ1, Main* mainJ2, Rail* rail) {
     qsort(mainJ2->chevalets, strlen(mainJ2->chevalets), sizeof(char), triAlphabetique);
     printf("\n1 : %s\n", mainJ1->chevalets);
     printf("2 : %s\n", mainJ2->chevalets);
-    affRail(rail);
+    afficherRail(rail);
 }
 
-int coupValide(const char* RoV, const char* mot) {
-    if (strlen(RoV) == 1 && (strcmp(RoV, "R") == 0 || strcmp(RoV, "V") == 0 || strcmp(RoV, "r") == 0 || strcmp(RoV, "v") == 0 || strcmp(RoV, "-") == 0)) {
-        return 0;
-    }
-    else {
-        return 1;
-    }
-}
 
 int proposeJouer(const char* joueur, char* RoV, char* mot) {
     printf("\n%s>", joueur);
@@ -49,11 +41,13 @@ int gereTours(Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, cons
     char RoV[MAX_ROV];
     Rail railVerso;
     initRail(&railVerso);
+    Rail railVersoAnt;
+    initRail(&railVersoAnt);
     if (proposeJouer(joueur, RoV, mot) == 0) {
         if (strcmp(joueur, "1") == 0){
             if (strcmp(RoV, "R") == 0) {
                 if (coupLegal(mainJ1,mainJ2,mainJ1Ant, mainJ2Ant,rail,railAnt, mot,RoV) == 0) {
-                    if (estOcto(concatParenthesesEtHors(mot)) == 0) {
+                    if (estOcto(concatEntreEtHorsParentheses(mot)) == 0) {
                         afficheSituationCouranteJeu(mainJ1, mainJ2, rail);
                         while (proposeRetraitChevalet(mainJ1, pioche, joueur) == 1) {
                         }
@@ -67,7 +61,7 @@ int gereTours(Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, cons
                 if (coupLegal(mainJ1, mainJ2, mainJ1Ant, mainJ2Ant, &railVerso,railAnt, mot,RoV) == 0) {
                     railVerso = inverseRail(&railVerso);
                     strcpy(rail->lettres, &railVerso.lettres);
-                    if (estOcto(concatParenthesesEtHors(mot)) == 0) {
+                    if (estOcto(concatEntreEtHorsParentheses(mot)) == 0) {
                         afficheSituationCouranteJeu(mainJ1, mainJ2, rail);
                         while (proposeRetraitChevalet(mainJ1, pioche, joueur) == 1) {
                         }
@@ -89,13 +83,14 @@ int gereTours(Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, cons
                 }
             }
             else if (strcmp(RoV, "r") == 0) {
-                if(signalementValide(pioche, mainJ1, mainJ2Ant, railAnt, mot, "1") == 0) {
+                if(signalementValide(pioche, mainJ1, mainJ1Ant, railAnt, mot, "1") == 0) {
                     afficheSituationCouranteJeu(mainJ1, mainJ2, rail);
                     return 1;
                 }
             }
             else if (strcmp(RoV, "v") == 0) {
-                if (signalementValide(pioche, mainJ1, mainJ2Ant, railAnt, mot, "1") == 0) {
+                railVersoAnt = inverseRail(railAnt);
+                if (signalementValide(pioche, mainJ1, mainJ1Ant, &railVersoAnt, mot, "1") == 0) {
                     afficheSituationCouranteJeu(mainJ1, mainJ2, rail);
                     return 1;
                 }
@@ -104,7 +99,7 @@ int gereTours(Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, cons
         else if (strcmp(joueur,"2") == 0) {
             if (strcmp(RoV, "R") == 0) {
                 if (coupLegal(mainJ2, mainJ1,mainJ1Ant,mainJ2Ant, rail,railAnt, mot, RoV) == 0) {
-                    if (estOcto(concatParenthesesEtHors(mot)) == 0) {
+                    if (estOcto(concatEntreEtHorsParentheses(mot)) == 0) {
                         afficheSituationCouranteJeu(mainJ1, mainJ2, rail);
                         while (proposeRetraitChevalet(mainJ2, pioche, joueur) == 1) {
                         }
@@ -118,7 +113,7 @@ int gereTours(Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, cons
                 if (coupLegal(mainJ2, mainJ1,mainJ1Ant,mainJ2Ant, &railVerso,railAnt, mot, RoV) == 0) {
                     railVerso = inverseRail(&railVerso);
                     strcpy(rail->lettres, &railVerso.lettres);
-                    if (estOcto(concatParenthesesEtHors(mot)) == 0) {
+                    if (estOcto(concatEntreEtHorsParentheses(mot)) == 0) {
                         afficheSituationCouranteJeu(mainJ1, mainJ2, rail);
                         while (proposeRetraitChevalet(mainJ2, pioche, joueur) == 1) {
                         }
@@ -146,7 +141,8 @@ int gereTours(Main* mainJ1, Main* mainJ2, Main* mainJ1Ant, Main* mainJ2Ant, cons
                 }
             }
             else if (strcmp(RoV, "v") == 0) {
-                if (signalementValide(pioche, mainJ2, mainJ1Ant, railAnt, mot, "2") == 0) {
+                railVersoAnt = inverseRail(railAnt);
+                if (signalementValide(pioche, mainJ2, mainJ1Ant, &railVersoAnt, mot, "2") == 0) {
                     afficheSituationCouranteJeu(mainJ1, mainJ2, rail);
                     return 1;
                 }
