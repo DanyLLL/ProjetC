@@ -7,6 +7,8 @@ enum {
 	NB_CHEVALET = 88
 };
 
+enum {NB_A = 9,NB_C = 2,NB_D = 3,NB_E = 14,NB_I = 7,NB_L = 5, NB_M = 3, NB_N = 6, NB_O = 5, NB_P = 2,NB_R = 6,NB_S = 7,NB_T = 6,NB_U = 5,NB_V = 2};
+
 /**
  * @brief Type Pioche .
 */
