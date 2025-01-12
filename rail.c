@@ -1,8 +1,8 @@
-#include "rail.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "mainj.h"
+#include "rail.h"
 #pragma warning (disable : 4996)
 
 
