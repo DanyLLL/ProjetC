@@ -90,3 +90,11 @@ void preparePiocheJeu(Pioche* pioche) {
 		ajoutePioche(pioche, 'V');
 	}
 }
+
+void test_pioche()
+{
+	Pioche p;
+	initPioche(&p);
+	ajoutePioche(&p, 'A');
+	assert(retirePioche(&p, 0) == 'A');
+}
