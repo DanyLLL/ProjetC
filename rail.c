@@ -115,4 +115,20 @@ Rail inverseRail(const Rail* rail) {
     return railInverse; // Retourner le rail inversé
 }
 
-
+void test_Rail()
+{
+    Rail r;
+    Rail inv;
+    initRail(&r);
+    initRail(&inv);
+    afficherRail(&r);
+    ajouteMotRail(&r, "BORDURES", GAUCHE);
+    afficherRail(&r);
+    ajouteRail(&r, 'X', GAUCHE);
+    afficherRail(&r);
+    ajouteRail(&r, 'S', DROITE);
+    afficherRail(&r);
+    printf("%s\n", recupMotRail(&r, 8, GAUCHE));
+    printf("%s\n", recupMotRail(&r, 8, DROITE));
+    afficherRail(&inv);
+}
