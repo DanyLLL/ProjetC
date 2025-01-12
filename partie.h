@@ -1,7 +1,5 @@
 #pragma once
-#include "pioche.h"
-#include "mainj.h"
-#include "rail.h"
+#include "mot.h"
 
 /**
 * @brief Lance toutes les fonctions permettant de lancer la partie.
