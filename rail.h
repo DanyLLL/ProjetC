@@ -14,11 +14,11 @@ typedef struct {
 
 int initRail(Rail* r);
 
-char ajtRail(Rail* r, const char l, int sens);
+char ajouteRail(Rail* r, const char l, int sens);
 
-void affRail(Rail* r);
+void afficherRail(Rail* r);
 
-char* ajtMotRail(Rail* r, const char* m, int sens);
+char* ajouteMotRail(Rail* r, const char* m, int sens);
 
 char* recupMotRail(Rail* rail, int nb, int sens);
 
