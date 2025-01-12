@@ -34,6 +34,7 @@ char retireMain(Main* main, int indice) {
 
 
 void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
+
 	srand(time(NULL));
 	for (int i = 0; i < 12;) {
 		int i1 = rand() % (pioche->nb - 1);
@@ -48,7 +49,6 @@ void prepareMainsJeu(Pioche* pioche, Main* mainJ1, Main* mainJ2) {
 	}
 	qsort(mainJ1->chevalets, strlen(mainJ1->chevalets), sizeof(char), triAlphabetique);
 	qsort(mainJ2->chevalets, strlen(mainJ2->chevalets), sizeof(char), triAlphabetique);
-	printf("La pioche a la fin de la distribution des chevalets : %s\n", pioche->chevalets);
 	printf("1 : %s\n", mainJ1->chevalets);
-	printf("2 : %s\n", mainJ2->chevalets);
+	printf("2 : %s\n\n", mainJ2->chevalets);
 }
