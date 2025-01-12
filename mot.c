@@ -16,6 +16,7 @@ int triAlphabetique(const void* a, const void* b) {
 }
 
 
+
 int motExiste(const char* mot, const char* dico) {
     // Ouvre le fichier en mode lecture
     FILE* f = fopen(dico, "r");
@@ -36,6 +37,8 @@ int motExiste(const char* mot, const char* dico) {
     fclose(f);
     return 1;  // Mot non trouvé
 }
+
+
 
 int motJouable(const char* mot, Main* mainJ) {
     char* chevaletTemp = malloc((strlen(mainJ->chevalets) + 1) * sizeof(char));
@@ -73,6 +76,8 @@ int motJouable(const char* mot, Main* mainJ) {
     return 0; // Mot jouable
 }
 
+
+
 int comparerProximiteA(const char* a, const char* b) {
     const char* mot1 = *(const char**)a;
     const char* mot2 = *(const char**)b;
@@ -95,6 +100,8 @@ int comparerProximiteA(const char* a, const char* b) {
     return (*mot1 == '\0') - (*mot2 == '\0');
 }
 
+
+
 int joueurPlusProcheDeA(const char* motJ1, const char* motJ2) {
     assert(motJ1 != NULL && motJ2 != NULL);
     const char* mots[] = { motJ1, motJ2 };
@@ -106,6 +113,8 @@ int joueurPlusProcheDeA(const char* motJ1, const char* motJ2) {
         return 2;
     }
 }
+
+
 
 char* concateneMotProcheDeA(const char* motJ1, const char* motJ2) {
     assert(motJ1 != NULL && motJ2 != NULL);
@@ -121,6 +130,8 @@ char* concateneMotProcheDeA(const char* motJ1, const char* motJ2) {
 
     return resultat;
 }
+
+
 
 const char* extraireParenthesesEtMot(const char* chaine, char** entreParenthese, char** horsParenthese) {
     *entreParenthese = malloc(sizeof(char));
@@ -157,6 +168,7 @@ const char* extraireParenthesesEtMot(const char* chaine, char** entreParenthese,
 }
 
 
+
 void deterOrdreJeu(Main* mainJ1, Main* mainJ2, Rail* rail) {
     char mot_dep_J1[MAX_MOT_DEP];
     char mot_dep_J2[MAX_MOT_DEP];
@@ -172,11 +184,11 @@ void deterOrdreJeu(Main* mainJ1, Main* mainJ2, Rail* rail) {
     while (motJ2Valide == 0) {
         printf("2> ");
         scanf("%s", mot_dep_J2);
-        if (strlen(mot_dep_J2) == MAX_MOT_DEP - 1 && motExiste(mot_dep_J2, "ods4.txt") == 0 && motJouable(mot_dep_J2, mainJ2) == 0 && mot_dep_J1 != mot_dep_J2) {
+        if (strlen(mot_dep_J2) == MAX_MOT_DEP - 1 && motExiste(mot_dep_J2, "ods4.txt") == 0 && motJouable(mot_dep_J2, mainJ2) == 0 && strcmp(mot_dep_J1,mot_dep_J2) == 1) {
             motJ2Valide = 1;
         }
     }
-    ajtMotRail(rail, concateneMotProcheDeA(mot_dep_J1, mot_dep_J2), 0);
+    ajouteMotRail(rail, concateneMotProcheDeA(mot_dep_J1, mot_dep_J2), 0);
     if (joueurPlusProcheDeA(mot_dep_J1, mot_dep_J2) == 1) {
         mainJ1->ordre = 1;
         mainJ2->ordre = 2;
@@ -187,7 +199,9 @@ void deterOrdreJeu(Main* mainJ1, Main* mainJ2, Rail* rail) {
     }
 }
 
-char* concatParenthesesEtHors(const char* chaine) {
+
+
+char* concatEntreEtHorsParentheses(const char* chaine) {
     if (!chaine) return NULL;
 
     char* resultat = malloc(strlen(chaine) + 1);
@@ -206,12 +220,15 @@ char* concatParenthesesEtHors(const char* chaine) {
 }
 
 
+
 int estOcto(const char* mot) {
     if (strlen(mot) == 8) {
         return 0;
     }
     return 1;
 }
+
+
 
 int mainContientMot(const char* mot, Main* main) {
     // Copie temporaire du chevalet pour éviter de modifier la main réelle
@@ -241,9 +258,11 @@ int mainContientMot(const char* mot, Main* main) {
     return 0; // Toutes les lettres sont présentes
 }
 
+
+
 int motLegal(const char* mot,const char* entreParentheses,const char* horsParentheses) {
     if (strlen(horsParentheses) <= MAX_HORS_PARENTHESES && strlen(horsParentheses) >= MIN_HORS_PARENTHESES){
-        if (strlen(entreParentheses) >= MIN_ENTRE_PARENTHESES && strlen(entreParentheses) <= MAX_ENTRE_PARENTHESES && strlen(concatParenthesesEtHors(mot)) <= MAX_RAIL) {
+        if (strlen(entreParentheses) >= MIN_ENTRE_PARENTHESES && strlen(entreParentheses) <= MAX_ENTRE_PARENTHESES && strlen(concatEntreEtHorsParentheses(mot)) <= MAX_RAIL) {
             return 0;
         }
     }
@@ -253,26 +272,39 @@ int motLegal(const char* mot,const char* entreParentheses,const char* horsParent
 }
 
 
+
+int coupValide(const char* RoV, const char* mot) {
+    if (strlen(RoV) == 1 && (strcmp(RoV, "R") == 0 || strcmp(RoV, "V") == 0 || strcmp(RoV, "r") == 0 || strcmp(RoV, "v") == 0 || strcmp(RoV, "-") == 0)) {
+        return 0;
+    }
+    else {
+        return 1;
+    }
+}
+
+
+
 int coupLegal(Main* mainJCourant,Main* mainJAdverse,Main* mainJCourantAnt,Main* mainJAdverseAnt,Rail* rail,Rail* railAnt,const char* motJ,const char* RoV) {
     char* entreParentheses = NULL;
     char* horsParentheses = NULL;
     extraireParenthesesEtMot(motJ, &entreParentheses, &horsParentheses);
     if (motLegal(motJ, entreParentheses, horsParentheses) == 0) {
-        if (motExiste(concatParenthesesEtHors(motJ), "ods4.txt") == 0) {
+        if (motExiste(concatEntreEtHorsParentheses(motJ), "ods4.txt") == 0) {
             if (strcmp(entreParentheses, recupMotRail(rail, strlen(entreParentheses), extraireParenthesesEtMot(motJ, &entreParentheses, &horsParentheses))) == 0) {
                 strcpy(mainJCourantAnt->chevalets, mainJCourant->chevalets);
                 strcpy(mainJAdverseAnt->chevalets, mainJAdverse->chevalets);
                 strcpy(railAnt->lettres, rail->lettres);
+                printf("%s %s aa \n", mainJCourantAnt->chevalets, mainJAdverseAnt->chevalets);
                 if (motJouable(horsParentheses, mainJCourant) == 0) {
                     if (extraireParenthesesEtMot(motJ, &entreParentheses, &horsParentheses) == GAUCHE) {
                         for (int i = strlen(horsParentheses) - 1; i >= 0; i = i - 1) {
-                            ajouteMain(mainJAdverse, ajtRail(rail, horsParentheses[i], GAUCHE));
+                            ajouteMain(mainJAdverse, ajouteRail(rail, horsParentheses[i], GAUCHE));
                         }
                         return 0;
                     }
                     else if (extraireParenthesesEtMot(motJ, &entreParentheses, &horsParentheses) == DROITE) {
                         for (int i = 0; i < strlen(horsParentheses); i = i + 1) {
-                            ajouteMain(mainJAdverse, ajtRail(rail, horsParentheses[i], DROITE));
+                            ajouteMain(mainJAdverse, ajouteRail(rail, horsParentheses[i], DROITE));
                         }
                         return 0;
                     }
@@ -283,18 +315,18 @@ int coupLegal(Main* mainJCourant,Main* mainJAdverse,Main* mainJCourantAnt,Main* 
     return 1;
 }
 
+
+
+
 int signalementValide(Pioche* pioche,Main* mainJCourant,Main* mainJAdverseAnt, Rail* railAnt,const char* motJ,const char* joueur) {
     char* entreParentheses = NULL;
     char* horsParentheses = NULL;
     extraireParenthesesEtMot(motJ, &entreParentheses, &horsParentheses);
     if (motLegal(motJ, entreParentheses, horsParentheses) == 0) {
-        printf("1\n");
+        printf("%s %s\n", mainJAdverseAnt->chevalets, railAnt->lettres);
         if (strcmp(entreParentheses, recupMotRail(railAnt, strlen(entreParentheses), extraireParenthesesEtMot(motJ, &entreParentheses, &horsParentheses))) == 0) {
-            printf("2\n");
-            printf("a %s %s\n",horsParentheses,mainJAdverseAnt->chevalets);
             if (mainContientMot(horsParentheses, mainJAdverseAnt) == 0) {
-                printf("b\n");
-                if (estOcto(concatParenthesesEtHors(motJ)) == 0) {
+                if (estOcto(concatEntreEtHorsParentheses(motJ)) == 0) {
                     while (proposeRetraitChevalet(mainJCourant, pioche, joueur) == 1) {
                     }
                     return 0;
