@@ -1,8 +1,8 @@
-
+#include "rail.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "rail.h"
+#include "mainj.h"
 #pragma warning (disable : 4996)
 
 
@@ -63,18 +63,18 @@ char* ajouteMotRail(Rail* r, const char* m, int sens) {
     int ind = 0;
     if (sens == GAUCHE) {
         for (int i = longueur - 1; i >= 0; i--) {
-            tombe[ind++] = ajouteRail(r, m[i], GAUCHE);
+            tombe[ind++] = ajouteRail(r, m[i], GAUCHE); // On ajoute lettre à lettre mot former le mot par la gauche.
 
         }
     }
     else if (sens == DROITE) {
         for (int i = 0; i < longueur; i++) {
-            tombe[ind++] = ajouteRail(r, m[i], DROITE);
+            tombe[ind++] = ajouteRail(r, m[i], DROITE); // On ajoute lettre à lettre mot former le mot par la droite.
         }
 
     }
     tombe[ind] = '\0';
-    return tombe;
+    return tombe; // On retourne la lettre qui est tombée
 }
 
 char* recupMotRail(Rail* rail, int nb, int sens) {
@@ -86,7 +86,7 @@ char* recupMotRail(Rail* rail, int nb, int sens) {
     // Allouer de la mémoire pour le mot récupéré
     char* mot = (char*)malloc((nb + 1) * sizeof(char));
     if (!mot) {
-        return NULL; // Retourner NULL si l'allocation échoue
+        return NULL; // Allocation ratée
     }
 
     // Lire les caractères selon le sens
@@ -101,7 +101,7 @@ char* recupMotRail(Rail* rail, int nb, int sens) {
         }
     }
     mot[nb] = '\0'; // Ajouter le caractère de fin de chaîne
-    return mot;
+    return mot; // On retourne les nb lettres à l'extremité
 }
 
 Rail inverseRail(const Rail* rail) {
