@@ -3,9 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include "mot.h"
-#include "mainj.h"
-#include "rail.h"
-#include "partie.h"
 #pragma warning(disable : 4996)
 
 
