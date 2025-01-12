@@ -1,6 +1,6 @@
 #pragma once
 #include "mainj.h"
-#include "rail.h"
+
 
 enum { MAX_MOT_DEP = 5, MAX_MOT = 15 ,MAX_HORS_PARENTHESES = 6, MIN_HORS_PARENTHESES = 1,MIN_ENTRE_PARENTHESES = 2, MAX_ENTRE_PARENTHESES = 7,MAX_LIGNE = 256};
 
