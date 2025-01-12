@@ -1,9 +1,5 @@
 #include <string.h>
-#include "pioche.h"
 #include "partie.h"
-#include "mainj.h"
-#include "rail.h"
-#include "mot.h"
 #pragma warning(disable : 4996)
 
 int main() {
