@@ -7,12 +7,12 @@
 
 void initPioche(Pioche* pioche) {
 	pioche->nb = 0;
-	pioche->chevalets = (char*)malloc(sizeof(char));
+	pioche->chevalets = (char*)malloc(sizeof(char)); // On alloue la mémoire nécessaire.
 }
 
 void ajoutePioche(Pioche* pioche, char lettre){
 	assert(pioche->nb < NB_CHEVALET);
-	pioche->chevalets = (char*)realloc(pioche->chevalets, sizeof(char) * (pioche->nb + 1));
+	pioche->chevalets = (char*)realloc(pioche->chevalets, sizeof(char) * (pioche->nb + 1)); // On realloue la mémoire nécessaire.
 	pioche->chevalets[pioche->nb] = lettre;
 	pioche->nb++;
 	pioche->chevalets[pioche->nb] = '\0';
@@ -21,7 +21,7 @@ void ajoutePioche(Pioche* pioche, char lettre){
 char retirePioche(Pioche* pioche, int indice) {
 	char lettre = pioche->chevalets[indice];
 	for (int i = indice; i < pioche->nb - 1; i++) {
-		pioche->chevalets[i] = pioche->chevalets[i + 1];
+		pioche->chevalets[i] = pioche->chevalets[i + 1]; // On décale tous les élements pour écraser le chevalet à l'indice donné.
 	}
 	pioche->nb = pioche->nb - 1;
 	char* test_allocation = (char*)realloc(pioche->chevalets, sizeof(char) * (pioche->nb + 1));
