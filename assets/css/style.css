@@ -1,0 +1,176 @@
+/* Placement de la barre de navigation qui fonctionne comme une grille */
+nav {
+    background-color: #87CEFA;
+    padding: 10px;
+    margin: 5px;
+    height : auto;
+    display: grid; /* Fonctionne désormais comme une grille */
+    text-align: center;
+    border-radius: 15px; /* "Arrondi" les coins de la barre de navigation */
+    grid-template-columns: auto auto auto;
+}
+
+/* Modification des textes présents dans les différents onglets de la nav (exemple : Accueil) */
+nav a {
+    color: white;
+    padding: 20px;
+    display: block;
+    text-decoration: none; /* Permet de retirer le soulignement du texte dû à la balise a */
+}
+
+/* Modification du fonctionnement de la class menu */
+.menu{
+    position: relative;
+    display: inline-block; /* Permet de créer la barre de navigation sans faire dépasser le menu déroulant, créer une boite en ligne  */
+}
+
+nav .menu {
+    color : white;
+    display: block;
+    text-decoration: none; /* Permet de retirer le soulignement du texte dû à la balise a */
+}
+
+/* Modification du fonctionnement de contenu_menu qui permet la redirection vers les 3 missions */
+.contenu_menu {
+    display: none; /* Permet à la barre de navigation de fonctionner avec le hover */
+    position: absolute; /* Position absolute pour permettre un placement arbitraire */
+    background-color: grey;
+    min-width: 160px; /* Permet d'aggrandir la taille du menu déroulant */
+}
+
+
+
+/* Modification du fonctionnement du menu */
+.menu:hover .contenu_menu { /* Utilisation de la pseudo-class hover pour permettre l'effet de "survol" du menu */
+    display: block;
+}
+
+nav a:hover, .contenu_menu a:hover { /* Pour les onglets de la barre de navigation et les onglets du menu déroulant */
+    border-radius: 15px; /* "Arrondi" les coins de la zone de survol */
+    background-color: #e6f2ff; /* Change la couleur de l'intérieur de l'onglet quand ce dernier est survolé */
+}
+
+.presentation{
+    margin : 110px  110px 0 110px;
+}
+
+.presentation h1{
+    font-size : 30px;
+}
+
+.presentation p{
+    font-size : 25px;
+}
+
+.introduction_travail{
+    margin : 110px  110px 0 110px;
+}
+
+.introduction_travail h1{
+    font-size : 30px;
+}
+
+.introduction_travail p{
+    font-size : 25px;
+}
+
+.definition_virtualisation{
+    margin : 110px  110px 0 110px;
+}
+
+.definition_virtualisation h1{
+    font-size : 30px;
+}
+
+.definition_virtualisation p{
+    font-size : 25px;
+}
+
+.tableau_difference caption{
+    font-family : "Agency FB";
+    text-decoration: underline #87CEFA;
+    text-align : center;
+    caption-side: top;
+    font-size : 40px;
+}
+
+.tableau_difference th, td {
+    padding: 15px 15px;
+    text-align: center;
+    border: 1px solid #ddd;
+}
+
+.tableau_difference th {
+    background-color: #87CEFA;
+    color: white;
+}
+.tableau_difference tr {
+    background-color: #e6f2ff;
+}
+
+.tableau_difference {
+    margin : 100px;
+}
+
+.type_virtualisation h1{
+    font-size : 40px;
+}
+
+.type_virtualisation{
+    margin : 110px  110px 0 110px;
+}
+
+.type_VirtualBox{
+    margin : 110px  110px 0 110px;
+}
+
+.type_VirtualBox h1{
+    font-size : 30px;
+}
+
+.type_VirtualBox p{
+    font-size : 25px;
+}
+
+.type_Workstation{
+    margin : 110px  110px 0 110px;
+}
+
+.type_Workstation h1{
+    font-size : 30px;
+}
+
+.type_Workstation p{
+    font-size : 25px;
+}
+
+.type_Stratus{
+    margin : 110px  110px 0 110px;
+}
+
+.type_Stratus h1{
+    font-size : 30px;
+}
+
+.type_Stratus p{
+    font-size : 25px;
+}
+
+.forme_sauvegarde{
+    margin : 110px  110px 0 110px;
+}
+
+.forme_sauvegarde h1{
+    font-size : 30px;
+}
+
+
+.forme_sauvegarde .stockage_NAS{
+    font-size : 27px;
+}
+
+.forme_sauvegarde .avantage_NAS{
+    font-size : 25px;
+    margin : 0 0 100px 50px;
+}
+
